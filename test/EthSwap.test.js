@@ -43,7 +43,7 @@ contract('EthSwap', ([deployer, investor]) => {
 
     before(async () => {
       // Purchase tokens before each example
-      result = await ethSwap.buyTokens({ from: investor, value: web3.utils.toWei('1', 'ether')})
+      result = await ethSwap.buyTokens({ from: investor, value: tokens('1')})
     })
 
     it('Allows user to instantly purchase tokens from ethSwap for a fixed price', async () => {
@@ -56,7 +56,7 @@ contract('EthSwap', ([deployer, investor]) => {
       ethSwapBalance = await token.balanceOf(ethSwap.address)
       assert.equal(ethSwapBalance.toString(), tokens('999900'))
       ethSwapBalance = await web3.eth.getBalance(ethSwap.address)
-      assert.equal(ethSwapBalance.toString(), web3.utils.toWei('1', 'Ether'))
+      assert.equal(ethSwapBalance.toString(), tokens('1'))
 
       // Check logs to ensure event was emitted with correct data
       const event = result.logs[0].args
@@ -87,7 +87,7 @@ contract('EthSwap', ([deployer, investor]) => {
       ethSwapBalance = await token.balanceOf(ethSwap.address)
       assert.equal(ethSwapBalance.toString(), tokens('1000000'))
       ethSwapBalance = await web3.eth.getBalance(ethSwap.address)
-      assert.equal(ethSwapBalance.toString(), web3.utils.toWei('0', 'Ether'))
+      assert.equal(ethSwapBalance.toString(), tokens('0'))
 
       // Check logs to ensure event was emitted with correct data
       const event = result.logs[0].args
