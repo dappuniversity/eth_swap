@@ -14,20 +14,26 @@ class Main extends Component {
     let content
     if(this.state.currentForm === 'buy') {
       content = <BuyForm
-        ethBalance={this.props.ethBalance}
-        tokenBalance={this.props.tokenBalance}
+        grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
+        pawthBalance={this.props.pawthBalance}
+        grumpyBalance={this.props.grumpyBalance}
         buyTokens={this.props.buyTokens}
       />
     } else {
       content = <SellForm
-        ethBalance={this.props.ethBalance}
-        tokenBalance={this.props.tokenBalance}
+        grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
+        pawthBalance={this.props.pawthBalance}
+        grumpyBalance={this.props.grumpyBalance}
         sellTokens={this.props.sellTokens}
       />
     }
 
     return (
       <div id="content" className="mt-3">
+        
+        <div className="d-flex justify-content-center mb-3">
+          GrumpyPathSwap Pawth Balance: { this.props.grumpyPawthSwapBalance }
+        </div>
 
         <div className="d-flex justify-content-between mb-3">
           <button

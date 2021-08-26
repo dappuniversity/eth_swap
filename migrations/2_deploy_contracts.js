@@ -1,15 +1,25 @@
-const Token = artifacts.require("Token");
-const EthSwap = artifacts.require("EthSwap");
+const Grumpy = artifacts.require("Grumpy");
+const Pawth = artifacts.require("Pawth");
+const GrumpyPawthSwap = artifacts.require("GrumpyPawthSwap");
 
 module.exports = async function(deployer) {
-  // Deploy Token
-  await deployer.deploy(Token);
-  const token = await Token.deployed()
+  const accounts = await web3.eth.getAccounts()
 
-  // Deploy EthSwap
-  await deployer.deploy(EthSwap, token.address);
-  const ethSwap = await EthSwap.deployed()
+  // Deploy Grumpy
+  await deployer.deploy(Grumpy);
+  const grumpy = await Grumpy.deployed()
 
-  // Transfer all tokens to EthSwap (1 million)
-  await token.transfer(ethSwap.address, '1000000000000000000000000')
+  // Deploy Pawth
+  await deployer.deploy(Pawth);
+  const pawth = await Pawth.deployed()
+
+  // Deploy GrumpyPawthSwap
+  await deployer.deploy(GrumpyPawthSwap, grumpy.address, pawth.address);
+  const grumpyPawthSwap = await GrumpyPawthSwap.deployed()
+
+  // Transfer all pawth to GrumpyPathSwap (1 billion)
+  await pawth.transfer(grumpyPawthSwap.address, '1000000000000000000000000000')
+
+  // Transfer 100 billion grupy to user who deployed the contract
+  await grumpy.transfer(accounts[0], '100000000000000000000000000000')
 };

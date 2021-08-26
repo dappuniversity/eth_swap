@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import tokenLogo from '../token-logo.png'
+import grumpyLogo from '../grumpy-logo.png'
 import ethLogo from '../eth-logo.png'
 
 class SellForm extends Component {
@@ -14,24 +14,24 @@ class SellForm extends Component {
     return (
       <form className="mb-3" onSubmit={(event) => {
           event.preventDefault()
-          let etherAmount
-          etherAmount = this.input.value.toString()
-          etherAmount = window.web3.utils.toWei(etherAmount, 'Ether')
-          this.props.sellTokens(etherAmount)
+          let pawthAmount
+          pawthAmount = this.input.value.toString()
+          pawthAmount = window.web3.utils.toWei(pawthAmount, 'Ether')
+          this.props.sellTokens(pawthAmount)
         }}>
         <div>
           <label className="float-left"><b>Input</b></label>
           <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(this.props.tokenBalance, 'Ether')}
+            Balance: {window.web3.utils.fromWei(this.props.grumpyBalance, 'Ether')}
           </span>
         </div>
         <div className="input-group mb-4">
           <input
             type="text"
             onChange={(event) => {
-              const tokenAmount = this.input.value.toString()
+              const grumpyAmount = this.input.value.toString()
               this.setState({
-                output: tokenAmount / 100
+                output: grumpyAmount / 100
               })
             }}
             ref={(input) => { this.input = input }}
@@ -40,15 +40,15 @@ class SellForm extends Component {
             required />
           <div className="input-group-append">
             <div className="input-group-text">
-              <img src={tokenLogo} height='32' alt=""/>
-              &nbsp; DApp
+              <img src={grumpyLogo} height='32' alt=""/>
+              &nbsp; Grumpy
             </div>
           </div>
         </div>
         <div>
           <label className="float-left"><b>Output</b></label>
           <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(this.props.ethBalance, 'Ether')}
+            Balance: {window.web3.utils.fromWei(this.props.pawthBalance, 'Ether')}
           </span>
         </div>
         <div className="input-group mb-2">
@@ -62,13 +62,13 @@ class SellForm extends Component {
           <div className="input-group-append">
             <div className="input-group-text">
               <img src={ethLogo} height='32' alt=""/>
-              &nbsp;&nbsp;&nbsp; ETH
+              &nbsp;&nbsp;&nbsp; PAWTH
             </div>
           </div>
         </div>
         <div className="mb-5">
           <span className="float-left text-muted">Exchange Rate</span>
-          <span className="float-right text-muted">100 DApp = 1 ETH</span>
+          <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
         </div>
         <button type="submit" className="btn btn-primary btn-block btn-lg">SWAP!</button>
       </form>
