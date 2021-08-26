@@ -31,7 +31,7 @@ class SwapGrumpyForPawth extends Component {
             onChange={(event) => {
               const grumpyAmount = this.input.value.toString()
               this.setState({
-                output: grumpyAmount / 100
+                output: grumpyAmount / 100000
               })
             }}
             ref={(input) => { this.input = input }}

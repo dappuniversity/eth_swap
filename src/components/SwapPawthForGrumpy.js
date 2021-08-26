@@ -31,7 +31,7 @@ class SwapPawthForGrumpy extends Component {
             onChange={(event) => {
               const pawthAmount = this.input.value.toString()
               this.setState({
-                output: pawthAmount * 100
+                output: pawthAmount * 10000
               })
             }}
             ref={(input) => { this.input = input }}
