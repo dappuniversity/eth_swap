@@ -28,7 +28,7 @@ contract GrumpyPawthSwap {
     pawth = _pawth;
   }
 
-  function buyTokens() public payable {
+  function swapPawthforGrumpy() public payable {
     // Calculate the number of tokens to buy
     uint grumpyAmount = msg.value * rate;
 

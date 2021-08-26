@@ -17,7 +17,7 @@ class BuyForm extends Component {
           let pawthAmount
           pawthAmount = this.input.value.toString()
           pawthAmount = window.web3.utils.toWei(pawthAmount, 'Ether')
-          this.props.buyTokens(pawthAmount)
+          this.props.swapPawthforGrumpy(pawthAmount)
         }}>
         <div>
           <label className="float-left"><b>Input</b></label>

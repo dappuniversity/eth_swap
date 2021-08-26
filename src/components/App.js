@@ -75,10 +75,10 @@ class App extends Component {
     }
   }
 
-  buyTokens = (pawthAmount) => {
+  swapPawthforGrumpy = (pawthAmount) => {
     this.setState({ loading: true })
     this.state.pawth.methods.approve(this.state.grumpyPawthSwap.address, pawthAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.grumpyPawthSwap.methods.buyTokens(pawthAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.grumpyPawthSwap.methods.swapPawthforGrumpy(pawthAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false })
       })
     })
@@ -116,7 +116,7 @@ class App extends Component {
         grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
         pawthBalance={this.state.pawthBalance}
         grumpyBalance={this.state.grumpyBalance}
-        buyTokens={this.buyTokens}
+        swapPawthforGrumpy={this.swapPawthforGrumpy}
         sellTokens={this.sellTokens}
       />
     }
