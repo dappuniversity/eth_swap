@@ -42,7 +42,7 @@ class Main extends Component {
                 this.setState({ currentForm: 'sell' })
               }}
             >
-            Grumpy to Pawth
+            Pawth to Grumpy
           </button>
           <span className="text-muted">&lt; &nbsp; &gt;</span>
           <button
@@ -51,7 +51,7 @@ class Main extends Component {
                 this.setState({ currentForm: 'buy' })
               }}
             >
-            Pawth to Grumpy
+            Grumpy to Pawth
           </button>
         </div>
 
