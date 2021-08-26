@@ -13,18 +13,18 @@ class Main extends Component {
   render() {
     let content
     if(this.state.currentForm === 'buy') {
-      content = <SwapPawthForGrumpy
-        grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
-        pawthBalance={this.props.pawthBalance}
-        grumpyBalance={this.props.grumpyBalance}
-        swapPawthForGrumpy={this.props.swapPawthForGrumpy}
-      />
-    } else {
       content = <SwapGrumpyForPawth
         grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}
         swapGrumpyForPawth={this.props.swapGrumpyForPawth}
+      />
+    } else {
+      content = <SwapPawthForGrumpy
+        grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
+        pawthBalance={this.props.pawthBalance}
+        grumpyBalance={this.props.grumpyBalance}
+        swapPawthForGrumpy={this.props.swapPawthForGrumpy}
       />
     }
 
@@ -39,19 +39,19 @@ class Main extends Component {
           <button
               className="btn btn-light"
               onClick={(event) => {
-                this.setState({ currentForm: 'buy' })
+                this.setState({ currentForm: 'sell' })
               }}
             >
-            Buy
+            Grumpy to Pawth
           </button>
           <span className="text-muted">&lt; &nbsp; &gt;</span>
           <button
               className="btn btn-light"
               onClick={(event) => {
-                this.setState({ currentForm: 'sell' })
+                this.setState({ currentForm: 'buy' })
               }}
             >
-            Sell
+            Pawth to Grumpy
           </button>
         </div>
 
