@@ -28,7 +28,7 @@ contract GrumpyPawthSwap {
     pawth = _pawth;
   }
 
-  function swapPawthforGrumpy() public payable {
+  function swapPawthForGrumpy() public payable {
     // Calculate the number of tokens to buy
     uint grumpyAmount = msg.value * rate;
 
@@ -42,7 +42,7 @@ contract GrumpyPawthSwap {
     emit PawthSwappedForGrumpy(msg.sender, address(grumpy), grumpyAmount, rate);
   }
 
-  function sellTokens(uint _amount) public {
+  function swapGrumpyForPawth(uint _amount) public {
     // User can't sell more tokens than they have
     require(grumpy.balanceOf(msg.sender) >= _amount);
 

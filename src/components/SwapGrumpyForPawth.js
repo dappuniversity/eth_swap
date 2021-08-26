@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import grumpyLogo from '../grumpy-logo.png'
 import ethLogo from '../eth-logo.png'
 
-class SellForm extends Component {
+class SwapGrumpyForPawth extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,7 +17,7 @@ class SellForm extends Component {
           let pawthAmount
           pawthAmount = this.input.value.toString()
           pawthAmount = window.web3.utils.toWei(pawthAmount, 'Ether')
-          this.props.sellTokens(pawthAmount)
+          this.props.swapGrumpyForPawth(pawthAmount)
         }}>
         <div>
           <label className="float-left"><b>Input</b></label>
@@ -76,4 +76,4 @@ class SellForm extends Component {
   }
 }
 
-export default SellForm;
+export default SwapGrumpyForPawth;

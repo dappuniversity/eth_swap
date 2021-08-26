@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SwapPawthForGrumpy from './SwapPawthForGrumpy'
-import SellForm from './SellForm'
+import SwapGrumpyForPawth from './SwapGrumpyForPawth'
 
 class Main extends Component {
   constructor(props) {
@@ -17,14 +17,14 @@ class Main extends Component {
         grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}
-        buyTokens={this.props.buyTokens}
+        swapPawthForGrumpy={this.props.swapPawthForGrumpy}
       />
     } else {
-      content = <SellForm
+      content = <SwapGrumpyForPawth
         grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}
-        sellTokens={this.props.sellTokens}
+        swapGrumpyForPawth={this.props.swapGrumpyForPawth}
       />
     }
 

@@ -17,7 +17,7 @@ class SwapPawthForGrumpy extends Component {
           let pawthAmount
           pawthAmount = this.input.value.toString()
           pawthAmount = window.web3.utils.toWei(pawthAmount, 'Ether')
-          this.props.swapPawthforGrumpy(pawthAmount)
+          this.props.swapPawthForGrumpy(pawthAmount)
         }}>
         <div>
           <label className="float-left"><b>Input</b></label>
