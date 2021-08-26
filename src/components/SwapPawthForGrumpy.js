@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import grumpyLogo from '../grumpy-logo.png'
 import ethLogo from '../eth-logo.png'
 
-class BuyForm extends Component {
+class SwapPawthForGrumpy extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -76,4 +76,4 @@ class BuyForm extends Component {
   }
 }
 
-export default BuyForm;
+export default SwapPawthForGrumpy;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import BuyForm from './BuyForm'
+import SwapPawthForGrumpy from './SwapPawthForGrumpy'
 import SellForm from './SellForm'
 
 class Main extends Component {
@@ -13,7 +13,7 @@ class Main extends Component {
   render() {
     let content
     if(this.state.currentForm === 'buy') {
-      content = <BuyForm
+      content = <SwapPawthForGrumpy
         grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}
