@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SwapPawthForGrumpy from './SwapPawthForGrumpy'
 import SwapGrumpyForPawth from './SwapGrumpyForPawth'
-
+import "./App.css"
 class Main extends Component {
   constructor(props) {
     super(props)
@@ -29,15 +29,15 @@ class Main extends Component {
     }
 
     return (
-      <div id="content" className="mt-3">
+      <div id="content" className="mt-3 fullscreen">
         
-        <div className="d-flex justify-content-center mb-3">
-          GrumpyPathSwap Pawth Balance: { this.props.grumpyPawthSwapBalance }
-        </div>
+        {/* <div className="d-flex justify-content-center mb-3">
+          GrumpyPathSwap Pawth Balance: { this.props.grumpyPawthSwapBalance /(10**9)}
+        </div> */}
 
         <div className="d-flex justify-content-between mb-3">
           <button
-              className="btn btn-light"
+              className="btn btn-light pawth_color_2"
               onClick={(event) => {
                 this.setState({ currentForm: 'sell' })
               }}
@@ -46,7 +46,7 @@ class Main extends Component {
           </button>
           <span className="text-muted">&lt; &nbsp; &gt;</span>
           <button
-              className="btn btn-light"
+              className="btn btn-light pawth_color_2"
               onClick={(event) => {
                 this.setState({ currentForm: 'buy' })
               }}

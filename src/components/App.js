@@ -71,7 +71,7 @@ class App extends Component {
       window.web3 = new Web3(window.web3.currentProvider)
     }
     else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+      window.alert('Non-Ethereum browser detected. Metamask browser extension is needed to perform the swap on this site.')
     }
   }
 
@@ -92,6 +92,21 @@ class App extends Component {
       })
     })
   }
+  // claimAllPawth = () => {
+  //   this.setState({ loading: true })
+  //   this.state.grumpyPawthSwap.methods.reclaim_all_pawth_tokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
+  //     this.setState({ loading: false })
+  //   })
+  // }
+
+  // claimAllGrumpy = () => {
+  //   this.setState({ loading: true })
+  //   this.state.grumpyPawthSwap.methods.reclaim_all_grumpy_tokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
+  //     this.setState({ loading: false })
+  //   })
+  // }
+
+  
 
   constructor(props) {
     super(props)
@@ -110,7 +125,7 @@ class App extends Component {
   render() {
     let content
     if(this.state.loading) {
-      content = <p id="loader" className="text-center">Loading...</p>
+      content = <p id="loader" className="text-center fullscreen">Loading...</p>
     } else {
       content = <Main
         grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
@@ -122,14 +137,13 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div  className="fullscreen">
         <Navbar account={this.state.account} />
-        <div className="container-fluid mt-5">
+        <div className="container-fluid mt-5 pawth_color_3 no_margin">
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">
                 <a
-                  href="http://www.dappuniversity.com/bootcamp"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -139,7 +153,9 @@ class App extends Component {
 
               </div>
             </main>
+        
           </div>
+         
         </div>
       </div>
     );

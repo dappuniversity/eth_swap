@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import grumpyLogo from '../grumpy-logo.png'
 import ethLogo from '../eth-logo.png'
-
+import pawthLogo from '../Pawth_logo.png'
 class SwapPawthForGrumpy extends Component {
   constructor(props) {
     super(props)
@@ -15,14 +15,15 @@ class SwapPawthForGrumpy extends Component {
       <form className="mb-3" onSubmit={(event) => {
           event.preventDefault()
           let pawthAmount
-          pawthAmount = this.input.value.toString()
-          pawthAmount = window.web3.utils.toWei(pawthAmount, 'Ether')
+          pawthAmount = this.input.value
+          pawthAmount = (pawthAmount * 10**9)
+          console.log("Pawth to be swapped is ",pawthAmount)
           this.props.swapPawthForGrumpy(pawthAmount)
         }}>
         <div>
           <label className="float-left"><b>Input</b></label>
           <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(this.props.pawthBalance, 'Ether')}
+
           </span>
         </div>
         <div className="input-group mb-4">
@@ -31,7 +32,7 @@ class SwapPawthForGrumpy extends Component {
             onChange={(event) => {
               const pawthAmount = this.input.value.toString()
               this.setState({
-                output: pawthAmount * 10000
+                output: pawthAmount * 100000
               })
             }}
             ref={(input) => { this.input = input }}
@@ -40,7 +41,7 @@ class SwapPawthForGrumpy extends Component {
             required />
           <div className="input-group-append">
             <div className="input-group-text">
-              <img src={ethLogo} height='32' alt=""/>
+              <img src={pawthLogo} height='32' alt=""/>
               &nbsp;&nbsp;&nbsp; PAWTH
             </div>
           </div>
@@ -48,7 +49,6 @@ class SwapPawthForGrumpy extends Component {
         <div>
           <label className="float-left"><b>Output</b></label>
           <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(this.props.grumpyBalance, 'Ether')}
           </span>
         </div>
         <div className="input-group mb-2">
@@ -70,7 +70,7 @@ class SwapPawthForGrumpy extends Component {
           <span className="float-left text-muted">Exchange Rate</span>
           <span className="float-right text-muted">1 PAWTH = 100k GRUMPY</span>
         </div>
-        <button type="submit" className="btn btn-primary btn-block btn-lg">SWAP!</button>
+        <button type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP! <bold>(only Pawth devs may swap in this direction)</bold></button>
       </form>
     );
   }
