@@ -37,7 +37,7 @@ class Main extends Component {
 
         <div className="d-flex justify-content-between mb-3">
           <button
-              className="btn btn-light pawth_color_2"
+              className="btn btn-light pawth_color_2 rounded"
               onClick={(event) => {
                 this.setState({ currentForm: 'sell' })
               }}
@@ -46,7 +46,7 @@ class Main extends Component {
           </button>
           <span className="text-muted">&lt; &nbsp; &gt;</span>
           <button
-              className="btn btn-light pawth_color_2"
+              className="btn btn-light pawth_color_2 rounded"
               onClick={(event) => {
                 this.setState({ currentForm: 'buy' })
               }}
@@ -55,7 +55,7 @@ class Main extends Component {
           </button>
         </div>
 
-        <div className="card mb-4" >
+        <div className="card mb-4 rounded">
 
           <div className="card-body">
 

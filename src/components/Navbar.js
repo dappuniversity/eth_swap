@@ -6,7 +6,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar pawth_color_3 fixed-top flex-md-nowrap p-0">
+      <nav className="navbar fixed-top flex-md-nowrap p-0">
         <a
           className="navbar-brand col-sm-3 col-md-2 mr-0"
           target="_blank"
