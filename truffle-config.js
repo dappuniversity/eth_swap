@@ -6,7 +6,7 @@ module.exports = {
     development: {
       host: "127.0.0.1",
       port: 7545,
-      network_id: 4 // Match any network id
+      network_id: 4 // Rinkeby testnet ID
     },
   },
   contracts_directory: './src/contracts/',

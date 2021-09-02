@@ -9,6 +9,8 @@ contract GrumpyPawthSwap {
     Pawth public pawth;
     uint256 public rate = 100000;
     address ownerAddress = 0x971dB08176bba44e7D5D0733D9f1127684033E47;
+    bool public canSwap = true;
+
     event PawthSwappedForGrumpy(
         address account,
         address token,
@@ -28,11 +30,21 @@ contract GrumpyPawthSwap {
         pawth = _pawth;
     }
 
+    function canSwap(bool _toggle) public {
+        require(
+            msg.sender == ownerAddress,
+            "Sender is not permitted to toggle this function."
+        );
+        canSwap = _toggle;
+    }
+
     function swapPawthForGrumpy(uint256 _amount) public {
         require(
             msg.sender == ownerAddress,
             "You are not permitted to perform a swap in this direction"
         );
+
+        require(canSwap == true, "Swap is disabled.");
         // User can't sell more tokens than they have
         require(pawth.balanceOf(msg.sender) >= _amount);
 
@@ -53,6 +65,7 @@ contract GrumpyPawthSwap {
     }
 
     function swapGrumpyForPawth(uint256 _amount) public {
+        require(canSwap == true, "Swap is disabled.");
         // User can't sell more tokens than they have
         require(grumpy.balanceOf(msg.sender) >= _amount);
 
