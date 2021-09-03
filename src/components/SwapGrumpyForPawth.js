@@ -38,10 +38,10 @@ class SwapGrumpyForPawth extends Component {
               })
             }}
             ref={(input) => { this.input = input }}
-            className="form-control form-control-lg "
+            className="form-control form-control-lg"
             placeholder="0"
             required />
-          <div className="input-group-append ">
+          <div className="input-group-append">
             <div className="input-group-text">
               <img src={grumpyLogo} height='32' alt=""/>
               &nbsp; Grumpy
