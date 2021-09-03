@@ -55,7 +55,7 @@ class Main extends Component {
           </button>
         </div>
 
-        <div className="card mb-4 rounded">
+        <div className="card mb-4 rounded shadow">
 
           <div className="card-body">
 
