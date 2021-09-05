@@ -16,6 +16,10 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.circle {
+  border-radius: 50px;
+}
+
 .fullscreen {
   min-height: 100vh;
 }

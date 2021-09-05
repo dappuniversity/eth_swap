@@ -1,27 +1,34 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
+import Identicon from 'identicon.js';
 import Grumpy from '../abis/Grumpy.json'
 import Pawth from '../abis/Pawth.json'
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
-import Navbar from './Navbar'
 import Main from './Main'
 import './App.css'
 
 class App extends Component {
 
-  async componentWillMount() {
-    await this.loadWeb3()
-    await this.loadBlockchainData()
+  disconnect () {
+    this.setState({ account: null })
   }
 
   async loadBlockchainData() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    }
+    else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    }
+    else {
+      window.alert('Non-Ethereum browser detected. Consider using metamask!')
+    }
+
     const web3 = window.web3
 
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
-
-    // const ethBalance = await web3.eth.getBalance(this.state.account)
-    // this.setState({ ethBalance })
 
     const networkId =  await web3.eth.net.getId()
 
@@ -62,19 +69,6 @@ class App extends Component {
     this.setState({ loading: false })
   }
 
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. Metamask browser extension is needed to perform the swap on this site.')
-    }
-  }
-
   swapPawthForGrumpy = (pawthAmount) => {
     this.setState({ loading: true })
     this.state.pawth.methods.approve(this.state.grumpyPawthSwap.address, pawthAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
@@ -111,14 +105,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      account: '',
+      account: null,
       grumpy: {},
       path: {},
       grumpyPawthSwap: {},
       grumpyPawthSwapBalance: '0',
       grumpyBalance: '0',
       pawthBalance: '0',
-      loading: true
+      loading: false
     }
   }
 
@@ -131,6 +125,7 @@ class App extends Component {
         grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
         pawthBalance={this.state.pawthBalance}
         grumpyBalance={this.state.grumpyBalance}
+        account={this.state.account}
         swapPawthForGrumpy={this.swapPawthForGrumpy}
         swapGrumpyForPawth={this.swapGrumpyForPawth}
       />
@@ -138,7 +133,43 @@ class App extends Component {
 
     return (
       <div  className="fullscreen">
-        <Navbar account={this.state.account} />
+        <nav className="navbar fixed-top flex-md-nowrap p-1">
+          <a
+            className="navbar-brand col-sm-3 col-md-2 mr-0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Grumpy/Pawth Swap
+          </a>
+
+          <ul className="navbar-nav px-3">
+            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+              {
+                this.state.account
+                ?
+                <button 
+                  className="btn pawth_color_2 rounded" 
+                  onClick={this.disconnect.bind(this)}
+                  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+                >
+                  {this.state.account.slice(0,6) + '...' + this.state.account.substring(this.state.account.length - 4)}
+                  <img
+                    className="ml-2 circle"
+                    width='30'
+                    height='30'
+                    src={`data:image/png;base64,${new Identicon(this.state.account, 30).toString()}`}
+                    alt=""
+                  />
+                </button>
+                :
+                <button 
+                  className="btn pawth_color_2 rounded" 
+                  onClick={this.loadBlockchainData.bind(this)}
+                >Connect</button>
+              }
+            </li>
+          </ul>
+        </nav>
         <div className="container-fluid mt-5 no_margin">
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
