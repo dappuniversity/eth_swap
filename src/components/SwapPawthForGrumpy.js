@@ -70,7 +70,7 @@ class SwapPawthForGrumpy extends Component {
           <span className="float-left text-muted">Exchange Rate</span>
           <span className="float-right text-muted">1 PAWTH = 100k GRUMPY</span>
         </div>
-        <button type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP! <bold>(only Pawth devs may swap in this direction)</bold></button>
+        <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP! <bold>(only Pawth devs may swap in this direction)</bold></button>
       </form>
     );
   }

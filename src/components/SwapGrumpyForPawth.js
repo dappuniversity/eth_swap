@@ -11,6 +11,17 @@ class SwapGrumpyForPawth extends Component {
     }
   }
 
+  maxGrumpy () {
+    console.log('maxing out grumpy...', this.props.grumpyBalance)
+    const max = this.props.grumpyBalance / 100000000000000000000000000
+    this.input.value = max.toString()
+    this.setState({ output: max / 100000 })
+  }
+
+  handleChange(e) {
+    this.setState({ output: e.target.value.toString() });
+  }
+
   render() {
     return (
       <form className="mb-3" onSubmit={(event) => {
@@ -28,7 +39,7 @@ class SwapGrumpyForPawth extends Component {
 
           </span>
         </div>
-        <div className="input-group mb-4">
+        <div className="input-group">
           <input
             type="text"
             onChange={(event) => {
@@ -47,6 +58,14 @@ class SwapGrumpyForPawth extends Component {
               &nbsp; Grumpy
             </div>
           </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+          <button 
+            disabled={!this.props.account}
+            className="mt-2 mb-2"
+            type="button"
+            onClick={() => { this.maxGrumpy() }}
+          >Max</button>
         </div>
         <div>
           <label className="float-left"><b>Output</b></label>
@@ -72,7 +91,7 @@ class SwapGrumpyForPawth extends Component {
           <span className="float-left text-muted">Exchange Rate</span>
           <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
         </div>
-        <button type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP!</button>
+        <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP!</button>
       </form>
     );
   }
