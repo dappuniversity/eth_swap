@@ -20,6 +20,14 @@ body {
   border-radius: 50px;
 }
 
+.btn-text {
+  background:none;
+  border:none;
+  margin:0;
+  padding:0;
+  cursor: pointer;
+}
+
 .fullscreen {
   min-height: 100vh;
 }

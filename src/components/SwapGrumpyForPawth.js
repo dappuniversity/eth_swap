@@ -12,7 +12,6 @@ class SwapGrumpyForPawth extends Component {
   }
 
   maxGrumpy () {
-    console.log('maxing out grumpy...', this.props.grumpyBalance)
     const max = this.props.grumpyBalance / 100000000000000000000000000
     this.input.value = max.toString()
     this.setState({ output: max / 100000 })
@@ -62,7 +61,7 @@ class SwapGrumpyForPawth extends Component {
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
           <button 
             disabled={!this.props.account}
-            className="mt-2 mb-2"
+            className="mt-2 mb-2 btn-text"
             type="button"
             onClick={() => { this.maxGrumpy() }}
           >Max</button>
