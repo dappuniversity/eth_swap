@@ -82,6 +82,7 @@ class App extends Component {
     this.setState({ loading: true })
     this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.loadBlockchainData()
         this.setState({ loading: false })
       })
     })
