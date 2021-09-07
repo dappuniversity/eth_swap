@@ -82,7 +82,11 @@ class App extends Component {
   swapGrumpyForPawth = (grumpyAmount) => {
     this.setState({ loading: true })
     this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ showAdditionalTxBanner: true })
       this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.setState({ showAdditionalTxBanner: false })
+        this.setState({ etherscanLink: `https://etherscan.io/tx/${hash}` })
+        this.setState({ showSuccessMessage: true })
         this.loadBlockchainData()
         this.setState({ loading: false })
       })
@@ -114,6 +118,9 @@ class App extends Component {
       grumpyPawthSwapBalance: '0',
       grumpyBalance: '0',
       pawthBalance: '0',
+      etherscanLink: '',
+      showSuccessMessage: false,
+      showAdditionalTxBanner: false,
       loading: false
     }
   }
@@ -169,20 +176,36 @@ class App extends Component {
             </li>
           </ul>
         </nav>
-        <div 
-          className={`${this.state.loading ? "container-fluid mt-5 no_margin loading" : "container-fluid mt-5 no_margin"}`}
-        >
+        <div className="container-fluid no_margin">
           <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
+            <main role="main" className="col-lg-12 ml-auto mr-auto mt-5" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                 </a>
-
-                {content}
-
+                {
+                  this.state.showAdditionalTxBanner 
+                  ?
+                  <div className="alert alert-primary rounded shadow" role="alert">
+                    Confirm the transaction in your wallet to execute the swap!
+                  </div>
+                  :
+                  <div></div>
+                }
+                {
+                  this.state.showSuccessMessage 
+                  ?
+                  <div className="alert alert-success rounded shadow" role="alert">
+                    View your transaction details on <a href={this.state.etherscanLink} class="alert-link">etherscan</a>!
+                  </div>
+                  :
+                  <div></div>
+                }
+                <div className={`${this.state.loading ? "loading" : ""}`}>
+                  {content}
+                </div>
               </div>
             </main>
         
