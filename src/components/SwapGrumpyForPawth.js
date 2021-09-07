@@ -6,14 +6,18 @@ class SwapGrumpyForPawth extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      grumpyToSwap: '0',
       output: '0'
     }
   }
 
   maxGrumpy () {
-    const max = this.props.grumpyBalance.slice(0, -18)
+    const max = window.web3.utils.fromWei(this.props.grumpyBalance, 'Shannon')
     this.input.value = max.toString()
-    this.setState({ output: max / 100000 })
+    this.setState({ 
+      grumpyToSwap: this.props.grumpyBalance,
+      output: max / 100000
+    })
   }
 
   handleChange(e) {
@@ -24,11 +28,7 @@ class SwapGrumpyForPawth extends Component {
     return (
       <form className="mb-3" onSubmit={(event) => {
           event.preventDefault()
-          let pawthAmount
-          pawthAmount = this.input.value
-          pawthAmount = (pawthAmount * 10**9)
-          pawthAmount = pawthAmount.toString()
-          this.props.swapGrumpyForPawth(pawthAmount)
+          this.props.swapGrumpyForPawth(this.state.grumpyToSwap)
         }}>
         <div >
           <label className="float-left paw"><b>Input</b></label>
@@ -42,6 +42,7 @@ class SwapGrumpyForPawth extends Component {
             onChange={(event) => {
               const grumpyAmount = this.input.value.toString()
               this.setState({
+                grumpyToSwap: grumpyAmount*10**9,
                 output: grumpyAmount / 100000
               })
             }}

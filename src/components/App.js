@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
 import Identicon from 'identicon.js';
+import pawthLogo from '../pawth-horizontal.png'
 import Grumpy from '../abis/Grumpy.json'
 import Pawth from '../abis/Pawth.json'
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
@@ -134,9 +135,10 @@ class App extends Component {
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
             target="_blank"
+            href="https://pawthereum.com/"
             rel="noopener noreferrer"
           >
-            Grumpy/Pawth Swap
+            <img src={pawthLogo} height="24x"></img>
           </a>
 
           <ul className="navbar-nav px-3">
