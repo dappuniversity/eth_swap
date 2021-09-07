@@ -6,8 +6,15 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentForm: 'buy'
+      currentForm: 'buy',
+      showDirectionalBtns: false
     }
+  }
+
+  componentDidMount () {
+    const urlSearchParams = new URLSearchParams(window.location.search)
+    const params = Object.fromEntries(urlSearchParams.entries())
+    this.setState({ showDirectionalBtns: params.showDirectionalButtons })
   }
 
   render() {
@@ -33,30 +40,31 @@ class Main extends Component {
     return (
       <div id="content" className="mt-3 fullscreen">
         
-        {/* <div className="d-flex justify-content-center mb-3">
-          GrumpyPathSwap Pawth Balance: { this.props.grumpyPawthSwapBalance /(10**9)}
-        </div> */}
-
-        <div className="d-flex justify-content-between mb-3">
-          <button
-              className="btn btn-light pawth_color_2 rounded"
-              onClick={(event) => {
-                this.setState({ currentForm: 'sell' })
-              }}
-            >
-            Pawth to Grumpy
-          </button>
-          <span className="text-muted">&lt; &nbsp; &gt;</span>
-          <button
-              className="btn btn-light pawth_color_2 rounded"
-              onClick={(event) => {
-                this.setState({ currentForm: 'buy' })
-              }}
-            >
-            Grumpy to Pawth
-          </button>
-        </div>
-
+        {
+          this.state.showDirectionalBtns
+          ?
+          <div className="d-flex justify-content-between mb-3">
+            <button
+                className="btn btn-light pawth_color_2 rounded"
+                onClick={(event) => {
+                  this.setState({ currentForm: 'sell' })
+                }}
+              >
+              Pawth to Grumpy
+            </button>
+            <span className="text-muted">&lt; &nbsp; &gt;</span>
+            <button
+                className="btn btn-light pawth_color_2 rounded"
+                onClick={(event) => {
+                  this.setState({ currentForm: 'buy' })
+                }}
+              >
+              Grumpy to Pawth
+            </button>
+          </div>
+          :
+          <div className="d-flex justify-content-between mb-3"></div>
+        }
         <div className="card mb-4 rounded shadow">
 
           <div className="card-body">

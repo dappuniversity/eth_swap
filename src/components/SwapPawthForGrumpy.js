@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import grumpyLogo from '../grumpy-logo.png'
-import ethLogo from '../eth-logo.png'
 import pawthLogo from '../Pawth_logo.png'
 class SwapPawthForGrumpy extends Component {
   constructor(props) {

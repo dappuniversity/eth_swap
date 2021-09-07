@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
 import Identicon from 'identicon.js';
+import pawthLogo from '../pawth-horizontal.png'
 import Grumpy from '../abis/Grumpy.json'
 import Pawth from '../abis/Pawth.json'
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
@@ -38,7 +39,7 @@ class App extends Component {
       const grumpy = new web3.eth.Contract(Grumpy.abi, grumpyData.address)
       this.setState({ grumpy })
       let grumpyBalance = await grumpy.methods.balanceOf(this.state.account).call()
-      this.setState({ grumpyBalance: grumpyBalance.toString() })
+      this.setState({ grumpyBalance: grumpyBalance ? grumpyBalance.toString() : '0' })
     } else {
       window.alert('Grumpy contract not deployed to detected network.')
     }
@@ -49,7 +50,7 @@ class App extends Component {
       const pawth = new web3.eth.Contract(Pawth.abi, pawthData.address)
       this.setState({ pawth })
       let pawthBalance = await pawth.methods.balanceOf(this.state.account).call()
-      this.setState({ pawthBalance: pawthBalance.toString() })
+      this.setState({ pawthBalance: pawthBalance ? pawthBalance.toString() : '0' })
     } else {
       window.alert('Pawth contract not deployed to detected network.')
     }
@@ -61,7 +62,7 @@ class App extends Component {
       this.setState({ grumpyPawthSwap })
       const pawth = this.state.pawth
       let grumpyPawthSwapBalance = await pawth.methods.balanceOf(grumpyPawthSwap.address).call()
-      this.setState({ grumpyPawthSwapBalance: grumpyPawthSwapBalance.toString() })
+      this.setState({ grumpyPawthSwapBalance: grumpyPawthSwapBalance ? grumpyPawthSwapBalance.toString() : '0' })
     } else {
       window.alert('GrumpyPawthSwap contract not deployed to detected network.')
     }
@@ -81,7 +82,11 @@ class App extends Component {
   swapGrumpyForPawth = (grumpyAmount) => {
     this.setState({ loading: true })
     this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ showAdditionalTxBanner: true })
       this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.setState({ showAdditionalTxBanner: false })
+        this.setState({ etherscanLink: `https://etherscan.io/tx/${hash}` })
+        this.setState({ showSuccessMessage: true })
         this.loadBlockchainData()
         this.setState({ loading: false })
       })
@@ -113,24 +118,23 @@ class App extends Component {
       grumpyPawthSwapBalance: '0',
       grumpyBalance: '0',
       pawthBalance: '0',
+      etherscanLink: '',
+      showSuccessMessage: false,
+      showAdditionalTxBanner: false,
       loading: false
     }
   }
 
   render() {
     let content
-    if(this.state.loading) {
-      content = <p id="loader" className="text-center fullscreen">Loading...</p>
-    } else {
-      content = <Main
-        grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
-        pawthBalance={this.state.pawthBalance}
-        grumpyBalance={this.state.grumpyBalance}
-        account={this.state.account}
-        swapPawthForGrumpy={this.swapPawthForGrumpy}
-        swapGrumpyForPawth={this.swapGrumpyForPawth}
-      />
-    }
+    content = <Main
+      grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
+      pawthBalance={this.state.pawthBalance}
+      grumpyBalance={this.state.grumpyBalance}
+      account={this.state.account}
+      swapPawthForGrumpy={this.swapPawthForGrumpy}
+      swapGrumpyForPawth={this.swapGrumpyForPawth}
+    />
 
     return (
       <div  className="fullscreen">
@@ -138,9 +142,10 @@ class App extends Component {
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
             target="_blank"
+            href="https://pawthereum.com/"
             rel="noopener noreferrer"
           >
-            Grumpy/Pawth Swap
+            <img src={pawthLogo} height="24x"></img>
           </a>
 
           <ul className="navbar-nav px-3">
@@ -171,18 +176,36 @@ class App extends Component {
             </li>
           </ul>
         </nav>
-        <div className="container-fluid mt-5 no_margin">
+        <div className="container-fluid no_margin">
           <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
+            <main role="main" className="col-lg-12 ml-auto mr-auto mt-5" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                 </a>
-
-                {content}
-
+                {
+                  this.state.showAdditionalTxBanner 
+                  ?
+                  <div className="alert alert-primary rounded shadow" role="alert">
+                    Confirm the transaction in your wallet to execute the swap!
+                  </div>
+                  :
+                  <div></div>
+                }
+                {
+                  this.state.showSuccessMessage 
+                  ?
+                  <div className="alert alert-success rounded shadow" role="alert">
+                    View your transaction details on <a href={this.state.etherscanLink} class="alert-link">etherscan</a>!
+                  </div>
+                  :
+                  <div></div>
+                }
+                <div className={`${this.state.loading ? "loading" : ""}`}>
+                  {content}
+                </div>
               </div>
             </main>
         

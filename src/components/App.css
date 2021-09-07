@@ -14,10 +14,19 @@ body {
   background-image: url('../bg.svg');
   background-size: cover;
   font-family: 'Comfortaa', cursive;
+  overflow-y: hidden;
 }
 
 .circle {
   border-radius: 50px;
+}
+
+.btn-text {
+  background:none;
+  border:none;
+  margin:0;
+  padding:0;
+  cursor: pointer;
 }
 
 .fullscreen {
@@ -57,3 +66,25 @@ body {
 .rounded {
   border-radius: 24px !important;
 }
+
+/* Loading Animation */
+@-webkit-keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.75; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.75; }
+  100% { opacity: 0.5; }
+}
+
+.loading {
+  -webkit-animation: pulse 2s infinite ease-in-out;
+  -o-animation: pulse 2s infinite ease-in-out;
+  -ms-animation: pulse 2s infinite ease-in-out; 
+  -moz-animation: pulse 2s infinite ease-in-out; 
+  animation: pulse 2s infinite ease-in-out;
+}
+/* End of Loading Animation */
