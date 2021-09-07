@@ -119,18 +119,14 @@ class App extends Component {
 
   render() {
     let content
-    if(this.state.loading) {
-      content = <p id="loader" className="text-center fullscreen">Loading...</p>
-    } else {
-      content = <Main
-        grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
-        pawthBalance={this.state.pawthBalance}
-        grumpyBalance={this.state.grumpyBalance}
-        account={this.state.account}
-        swapPawthForGrumpy={this.swapPawthForGrumpy}
-        swapGrumpyForPawth={this.swapGrumpyForPawth}
-      />
-    }
+    content = <Main
+      grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
+      pawthBalance={this.state.pawthBalance}
+      grumpyBalance={this.state.grumpyBalance}
+      account={this.state.account}
+      swapPawthForGrumpy={this.swapPawthForGrumpy}
+      swapGrumpyForPawth={this.swapGrumpyForPawth}
+    />
 
     return (
       <div  className="fullscreen">
@@ -171,7 +167,9 @@ class App extends Component {
             </li>
           </ul>
         </nav>
-        <div className="container-fluid mt-5 no_margin">
+        <div 
+          className={`${this.state.loading ? "container-fluid mt-5 no_margin loading" : "container-fluid mt-5 no_margin"}`}
+        >
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">

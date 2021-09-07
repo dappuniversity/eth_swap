@@ -65,3 +65,25 @@ body {
 .rounded {
   border-radius: 24px !important;
 }
+
+/* Loading Animation */
+@-webkit-keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+.loading {
+  -webkit-animation: pulse 2s infinite ease-in-out;
+  -o-animation: pulse 2s infinite ease-in-out;
+  -ms-animation: pulse 2s infinite ease-in-out; 
+  -moz-animation: pulse 2s infinite ease-in-out; 
+  animation: pulse 2s infinite ease-in-out;
+}
+/* End of Loading Animation */
