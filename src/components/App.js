@@ -38,7 +38,7 @@ class App extends Component {
       const grumpy = new web3.eth.Contract(Grumpy.abi, grumpyData.address)
       this.setState({ grumpy })
       let grumpyBalance = await grumpy.methods.balanceOf(this.state.account).call()
-      this.setState({ grumpyBalance: grumpyBalance.toString() })
+      this.setState({ grumpyBalance: grumpyBalance ? grumpyBalance.toString() : '0' })
     } else {
       window.alert('Grumpy contract not deployed to detected network.')
     }
@@ -49,7 +49,7 @@ class App extends Component {
       const pawth = new web3.eth.Contract(Pawth.abi, pawthData.address)
       this.setState({ pawth })
       let pawthBalance = await pawth.methods.balanceOf(this.state.account).call()
-      this.setState({ pawthBalance: pawthBalance.toString() })
+      this.setState({ pawthBalance: pawthBalance ? pawthBalance.toString() : '0' })
     } else {
       window.alert('Pawth contract not deployed to detected network.')
     }
@@ -61,7 +61,7 @@ class App extends Component {
       this.setState({ grumpyPawthSwap })
       const pawth = this.state.pawth
       let grumpyPawthSwapBalance = await pawth.methods.balanceOf(grumpyPawthSwap.address).call()
-      this.setState({ grumpyPawthSwapBalance: grumpyPawthSwapBalance.toString() })
+      this.setState({ grumpyPawthSwapBalance: grumpyPawthSwapBalance ? grumpyPawthSwapBalance.toString() : '0' })
     } else {
       window.alert('GrumpyPawthSwap contract not deployed to detected network.')
     }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import grumpyLogo from '../grumpy-logo.png'
-import ethLogo from '../eth-logo.png'
 import pawthLogo from '../Pawth_logo.png'
 import "./App.css"
 class SwapGrumpyForPawth extends Component {
@@ -12,7 +11,7 @@ class SwapGrumpyForPawth extends Component {
   }
 
   maxGrumpy () {
-    const max = this.props.grumpyBalance / 100000000000000000000000000
+    const max = this.props.grumpyBalance.slice(0, -18)
     this.input.value = max.toString()
     this.setState({ output: max / 100000 })
   }
@@ -29,7 +28,6 @@ class SwapGrumpyForPawth extends Component {
           pawthAmount = this.input.value
           pawthAmount = (pawthAmount * 10**9)
           pawthAmount = pawthAmount.toString()
-          console.log("Grumpy to be swapped is ",pawthAmount)
           this.props.swapGrumpyForPawth(pawthAmount)
         }}>
         <div >
