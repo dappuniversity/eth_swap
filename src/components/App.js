@@ -138,18 +138,19 @@ class App extends Component {
 
     return (
       <div  className="fullscreen">
-        <nav className="navbar fixed-top flex-md-nowrap p-1">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            target="_blank"
-            href="https://pawthereum.com/"
-            rel="noopener noreferrer"
-          >
-            <img src={pawthLogo} height="24x"></img>
-          </a>
-
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+        <nav className="navbar fixed-top" style={{ display: 'block' }}>
+          <div className="row align-items-center justify-content-center">
+            <div className="col">
+              <a
+                className="navbar-brand"
+                target="_blank"
+                href="https://pawthereum.com/"
+                rel="noopener noreferrer"
+              >
+                <img src={pawthLogo} height="24x"></img>
+              </a>
+            </div>
+            <div className="col" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
               {
                 this.state.account
                 ?
@@ -170,8 +171,8 @@ class App extends Component {
                   onClick={this.loadBlockchainData.bind(this)}
                 >Connect</button>
               }
-            </li>
-          </ul>
+            </div>
+          </div>
         </nav>
         <div className="container-fluid no_margin">
           <div className="row">

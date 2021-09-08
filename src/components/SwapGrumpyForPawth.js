@@ -86,7 +86,7 @@ class SwapGrumpyForPawth extends Component {
           </div>
         </div>
         <div className="mb-5">
-          <span className="float-left text-muted">Exchange Rate</span>
+          <span className="float-left text-muted d-none d-sm-block">Exchange Rate</span>
           <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
         </div>
         <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP!</button>
