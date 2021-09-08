@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
-import Identicon from 'identicon.js';
+import Jazzicon from '@metamask/jazzicon'
 import pawthLogo from '../pawth-horizontal.png'
 import Grumpy from '../abis/Grumpy.json'
 import Pawth from '../abis/Pawth.json'
@@ -30,6 +30,8 @@ class App extends Component {
 
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
+    document.getElementById('avatar').appendChild(Jazzicon(20, parseInt(this.state.account.slice(2, 10), 16)))
+
 
     const networkId =  await web3.eth.net.getId()
 
@@ -106,8 +108,6 @@ class App extends Component {
   //   })
   // }
 
-  
-
   constructor(props) {
     super(props)
     this.state = {
@@ -158,14 +158,11 @@ class App extends Component {
                   onClick={this.disconnect.bind(this)}
                   style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
-                  {this.state.account.slice(0,6) + '...' + this.state.account.substring(this.state.account.length - 4)}
-                  <img
-                    className="ml-2 circle"
-                    width='30'
-                    height='30'
-                    src={`data:image/png;base64,${new Identicon(this.state.account, 30).toString()}`}
-                    alt=""
-                  />
+                  <span class="pt-1" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    {this.state.account.slice(0,6) + '...' + this.state.account.substring(this.state.account.length - 4)}
+                  </span>
+      
+                  <span id="avatar" className="pl-2" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}></span>
                 </button>
                 :
                 <button 
