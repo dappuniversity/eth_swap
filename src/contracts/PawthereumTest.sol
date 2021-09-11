@@ -1,14 +1,9 @@
-/**
- *Submitted for verification at Etherscan.io on 2021-09-11
-*/
-
 pragma solidity ^0.6.12;
 
 abstract contract Context {
     function _msgSender() internal virtual view returns (address payable) {
         return msg.sender;
     }
-
     function _msgData() internal virtual view returns (bytes memory) {
         this;
         return msg.data;
@@ -17,24 +12,15 @@ abstract contract Context {
 
 interface IERC20 {
     function totalSupply() external view returns (uint256);
-
-
     function balanceOf(address account) external view returns (uint256);
-
     function transfer(address recipient, uint256 amount)
         external
         returns (bool);
-
-
     function allowance(address owner, address spender)
         external
         view
         returns (uint256);
-
-
     function approve(address spender, uint256 amount) external returns (bool);
-
-
     function transferFrom(
         address sender,
         address recipient,
@@ -42,7 +28,6 @@ interface IERC20 {
     ) external returns (bool);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
-
     event Approval(
         address indexed owner,
         address indexed spender,
@@ -50,17 +35,13 @@ interface IERC20 {
     );
 }
 
-
 library SafeMath {
-
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
 
         return c;
     }
-
-
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         return sub(a, b, "SafeMath: subtraction overflow");
     }
@@ -394,14 +375,6 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     }
 
     constructor() public {
-        // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E); // for BSC
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D); // for Ethereum
-        // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506); // for Sushi testnet
-        
-        
-        uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory()).createPair(address(this), _uniswapV2Router.WETH());
-            
-        uniswapV2Router = _uniswapV2Router;
         //paste the wallet adress, that earns the marketingFee here
         marketingWallet = 0x971dB08176bba44e7D5D0733D9f1127684033E47;
 		//paste the wallet address that earns the charityFee here
@@ -414,6 +387,14 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
 
         _reflectionBalance[_msgSender()] = _reflectionTotal;
         emit Transfer(address(0), _msgSender(), _tokenTotal);
+    }
+
+    function init() external onlyOwner() {
+        // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E); // for BSC
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D); // for Ethereum
+        // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506); // for Sushi testnet
+        uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory()).createPair(address(this), _uniswapV2Router.WETH());
+        uniswapV2Router = _uniswapV2Router;
     }
 
     function name() public view returns (string memory) {

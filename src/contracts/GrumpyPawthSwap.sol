@@ -717,13 +717,13 @@ pragma solidity ^0.6.12;
         }
     }
 
-    contract Pawthereum is Context, IERC20, Ownable {
+contract PawthereumTest is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
 //change "name1" and "symbol"
-    string private _name = "Pawthereum";
-    string private _symbol = "PAWTH";
+    string private _name = "PawthereumTest";
+    string private _symbol = "PAWTHTEST";
     
     uint8 private _decimals = 9;
 
@@ -1189,7 +1189,7 @@ pragma solidity ^0.6.12;
 contract GrumpyPawthSwap {
     string public name = "Grumpy Pawth Swap";
     Grumpy public grumpy;
-    Pawthereum public pawth;
+    PawthereumTest public pawth;
     uint256 public rate = 100000;
     address owner1 = 0x8EA6cC82148D92F979D34031Bdba60CCD35b0f9e;
     address owner2 = 0x971dB08176bba44e7D5D0733D9f1127684033E47;
@@ -1211,7 +1211,7 @@ contract GrumpyPawthSwap {
         uint256 rate
     );
 
-    constructor(Grumpy _grumpy, Pawthereum _pawth) public {
+    constructor(Grumpy _grumpy, PawthereumTest _pawth) public {
         grumpy = _grumpy;
         pawth = _pawth;
     }

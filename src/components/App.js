@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import Jazzicon from '@metamask/jazzicon'
 import pawthLogo from '../pawth-horizontal.png'
 import Grumpy from '../abis/Grumpy.json'
-import Pawth from '../abis/Pawth.json'
+import Pawth from '../abis/PawthereumTest.json' // TODO: CHANGE THIS WHEN GOING LIVE
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
 import Main from './Main'
 import './App.css'
