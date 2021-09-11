@@ -1,6 +1,7 @@
 {
   "name": "eth-swap",
   "version": "0.1.0",
+  "homepage": "http://pawthereum.github.io/Grumpy_Pawth_Swap",
   "description": "An Instant ERC-20 Cryptocurrency Exchange",
   "author": "gregory@dappuniversity.com",
   "dependencies": {
@@ -15,6 +16,8 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chai-bignumber": "3.0.0",
+    "dotenv": "^6.0.0",
+    "gh-pages": "^3.2.3",
     "identicon.js": "^2.3.3",
     "openzeppelin-solidity": "^4.3.1",
     "react": "16.8.4",
@@ -22,13 +25,16 @@
     "react-dom": "16.8.4",
     "react-scripts": "2.1.3",
     "truffle": "5.0.5",
+    "truffle-hdwallet-provider-privkey": "^0.3.0",
     "web3": "1.0.0-beta.55"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
