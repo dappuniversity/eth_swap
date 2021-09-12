@@ -37,6 +37,7 @@ class App extends Component {
 
     // Load Grumpy
     const grumpyData = Grumpy.networks[networkId]
+    this.setState({ grumpyAddress: grumpyData.address })
     if(grumpyData) {
       const grumpy = new web3.eth.Contract(Grumpy.abi, grumpyData.address)
       this.setState({ grumpy })
@@ -48,6 +49,7 @@ class App extends Component {
 
     // Load Pawth
     const pawthData = Pawth.networks[networkId]
+    this.setState({ pawthAddress: pawthData.address })
     if (pawthData) {
       const pawth = new web3.eth.Contract(Pawth.abi, pawthData.address)
       this.setState({ pawth })
@@ -113,7 +115,9 @@ class App extends Component {
     this.state = {
       account: null,
       grumpy: {},
-      path: {},
+      grumpyAddress: '',
+      pawth: {},
+      pawthAddress: '',
       grumpyPawthSwap: {},
       grumpyPawthSwapBalance: '0',
       grumpyBalance: '0',
@@ -210,6 +214,18 @@ class App extends Component {
           </div>
          
         </div>
+        <nav class="navbar fixed-bottom navbar-light bg-light">
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-6">
+                Grumpy:<br/> {this.state.grumpyAddress}
+              </div>
+              <div className="col-sm-6">
+                Pawthereum:<br/> {this.state.pawthAddress}
+              </div>
+            </div>
+          </div>
+        </nav>
       </div>
     );
   }
