@@ -83,18 +83,22 @@ class App extends Component {
     })
   }
 
-  swapGrumpyForPawth = (grumpyAmount) => {
+  approveGrumpyTransaction = (grumpyAmount) => {
     this.setState({ loading: true })
+    this.setState({grumpyApproved: true})
     console.log(grumpyAmount)
     this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ showAdditionalTxBanner: true })
+    this.setState({loading:false})
+    })
+  }
+
+  swapGrumpyForPawth = (grumpyAmount) => {
+    this.setState({loading:true})
+    console.log(grumpyAmount)
       this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ showAdditionalTxBanner: false })
-        this.setState({ etherscanLink: `https://etherscan.io/tx/${hash}` })
-        this.setState({ showSuccessMessage: true })
-        this.loadBlockchainData()
         this.setState({ loading: false })
-      })
+      this.setState({grumpyApproved:false})
     })
   }
   // claimAllPawth = () => {
@@ -115,6 +119,7 @@ class App extends Component {
     super(props)
     this.state = {
       account: null,
+      grumpyApproved:false,
       grumpy: {},
       grumpyAddress: '',
       pawth: {},
@@ -138,7 +143,9 @@ class App extends Component {
       grumpyBalance={this.state.grumpyBalance}
       account={this.state.account}
       swapPawthForGrumpy={this.swapPawthForGrumpy}
+      approveGrumpyTransaction={this.approveGrumpyTransaction}
       swapGrumpyForPawth={this.swapGrumpyForPawth}
+      grumpyApproved={this.state.grumpyApproved}
     />
 
     return (
@@ -178,7 +185,10 @@ class App extends Component {
               }
             </div>
           </div>
+
         </nav>
+
+        
         <div className="container-fluid no_margin">
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto mt-5" style={{ maxWidth: '600px' }}>
@@ -188,7 +198,7 @@ class App extends Component {
                   rel="noopener noreferrer"
                 >
                 </a>
-                {
+                {/* {
                   this.state.showAdditionalTxBanner 
                   ?
                   <div className="alert alert-primary rounded shadow" role="alert">
@@ -205,28 +215,20 @@ class App extends Component {
                   </div>
                   :
                   <div></div>
-                }
+                } */}
                 <div className={`${this.state.loading ? "loading" : ""}`}>
                   {content}
                 </div>
               </div>
+
+              
             </main>
-        
+
           </div>
-         
+
         </div>
-        <nav class="navbar fixed-bottom navbar-light bg-light">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-6">
-                Grumpy:<br/> {this.state.grumpyAddress}
-              </div>
-              <div className="col-sm-6">
-                Pawthereum:<br/> {this.state.pawthAddress}
-              </div>
-            </div>
-          </div>
-        </nav>
+      
+
       </div>
     );
   }

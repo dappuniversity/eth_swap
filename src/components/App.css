@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
 
 .pawth_color {
   background-color: #ff65b3;
@@ -11,9 +11,9 @@ html,
 body {
   height: 100%;
   min-height: 100%;
-  background-image: url('../bg.svg');
+  background-image: url("../bg.svg");
   background-size: cover;
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
   overflow-y: hidden;
 }
 
@@ -22,10 +22,10 @@ body {
 }
 
 .btn-text {
-  background:none;
-  border:none;
-  margin:0;
-  padding:0;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
 }
 
@@ -69,22 +69,40 @@ body {
 
 /* Loading Animation */
 @-webkit-keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 0.75; }
-  100% { opacity: 0.5; }
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 0.75; }
-  100% { opacity: 0.5; }
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 
 .loading {
   -webkit-animation: pulse 2s infinite ease-in-out;
   -o-animation: pulse 2s infinite ease-in-out;
-  -ms-animation: pulse 2s infinite ease-in-out; 
-  -moz-animation: pulse 2s infinite ease-in-out; 
+  -ms-animation: pulse 2s infinite ease-in-out;
+  -moz-animation: pulse 2s infinite ease-in-out;
   animation: pulse 2s infinite ease-in-out;
+}
+
+.smallFont {
+  font-size: 15px;
+  color: black;
+  text-align: center;
 }
 /* End of Loading Animation */

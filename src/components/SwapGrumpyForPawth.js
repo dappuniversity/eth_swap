@@ -25,73 +25,165 @@ class SwapGrumpyForPawth extends Component {
   }
 
   render() {
-    return (
-      <form className="mb-3" onSubmit={(event) => {
-          event.preventDefault()
-          this.props.swapGrumpyForPawth(this.state.grumpyToSwap)
-        }}>
-        <div >
-          <label className="float-left paw"><b>Input</b></label>
-          <span className="float-right text-muted">
 
-          </span>
-        </div>
-        <div className="input-group">
-          <input
-            type="text"
-            onChange={(event) => {
-              const grumpyAmount = this.input.value.toString()
-              this.setState({
-                grumpyToSwap: `${window.web3.utils.toWei(grumpyAmount, 'shannon')}`,// (grumpyAmount*10**9).toString(),
-                output: grumpyAmount / 100000
-              })
-            }}
-            ref={(input) => { this.input = input }}
-            className="form-control form-control-lg"
-            placeholder="0"
-            required />
-          <div className="input-group-append">
-            <div className="input-group-text">
-              <img src={grumpyLogo} height='32' alt=""/>
-              &nbsp; Grumpy
+    if (this.props.grumpyApproved === false ) {
+      return (
+        <form className="mb-3" onSubmit={(event) => {
+            event.preventDefault()
+            this.props.approveGrumpyTransaction(this.state.grumpyToSwap)
+          }}>
+          <div >
+            <label className="float-left paw"><b>Input</b></label>
+            <span className="float-right text-muted">
+  
+            </span>
+          </div>
+          <div className="input-group">
+            <input
+              type="text"
+              onChange={(event) => {
+
+                if (isNaN(this.input.value) ==false && this.props.account != null && this.input.value !="") {
+                  let grumpyAmount = this.input.value.toString() 
+                  this.setState({
+                    grumpyToSwap: `${window.web3.utils.toWei(grumpyAmount, 'shannon')}`,// (grumpyAmount*10**9).toString(),
+                    output: grumpyAmount / 100000
+                  })
+                }
+                else if(this.props.account == null) {
+                  this.setState({output: "Please Connect your Wallet"})
+                }
+                else{
+                  this.setState({output: "Please Enter a Number"})
+                }
+
+              }}
+              ref={(input) => { this.input = input }}
+              className="form-control form-control-lg"
+              placeholder="0"
+              required />
+            <div className="input-group-append">
+              <div className="input-group-text">
+                <img src={grumpyLogo} height='32' alt=""/>
+                &nbsp; Grumpy
+              </div>
             </div>
           </div>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
-          <button 
-            disabled={!this.props.account}
-            className="mt-2 mb-2 btn-text"
-            type="button"
-            onClick={() => { this.maxGrumpy() }}
-          >Max</button>
-        </div>
-        <div>
-          <label className="float-left"><b>Output</b></label>
-          <span className="float-right text-muted">
-          </span>
-        </div>
-        <div className="input-group mb-2">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="0"
-            value={this.state.output}
-            disabled
-          />
-          <div className="input-group-append">
-            <div className="input-group-text">
-              <img src={pawthLogo} height='32' alt=""/>
-              &nbsp;&nbsp;&nbsp; PAWTH
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+            <button 
+              disabled={!this.props.account}
+              className="mt-2 mb-2 btn-text"
+              type="button"
+              onClick={() => { this.maxGrumpy() }}
+            >Max</button>
+          </div>
+          <div>
+            <label className="float-left"><b>Output</b></label>
+            <span className="float-right text-muted">
+            </span>
+          </div>
+          <div className="input-group mb-2">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="0"
+              value={this.state.output}
+              disabled
+            />
+            <div className="input-group-append">
+              <div className="input-group-text">
+                <img src={pawthLogo} height='32' alt=""/>
+                &nbsp;&nbsp;&nbsp; PAWTH
+              </div>
             </div>
           </div>
-        </div>
-        <div className="mb-5">
-          <span className="float-left text-muted d-none d-sm-block">Exchange Rate</span>
-          <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
-        </div>
-        <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP!</button>
-      </form>
-    );
+          <div className="mb-5">
+            <span className="float-left text-muted d-none d-sm-block">Exchange Rate</span>
+            <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
+          </div>
+          <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">APPROVE TRANSACTION!</button>
+        </form>
+      );
+    }
+    else {
+      console.log(this.props.grumpyApproved)
+      return (
+        <form className="mb-3" onSubmit={(event) => {
+            event.preventDefault()
+            this.props.swapGrumpyForPawth(this.state.grumpyToSwap)
+          }}>
+          <div >
+            <label className="float-left paw"><b>Input</b></label>
+            <span className="float-right text-muted">
+  
+            </span>
+          </div>
+          <div className="input-group">
+            <input
+              type="text"
+              onChange={(event) => {
+                if (isNaN(this.input.value) ==false && this.props.account != null && this.input.value !="") {
+                  let grumpyAmount = this.input.value.toString() 
+                  this.setState({
+                    grumpyToSwap: `${window.web3.utils.toWei(grumpyAmount, 'shannon')}`,// (grumpyAmount*10**9).toString(),
+                    output: grumpyAmount / 100000
+                  })
+                }
+                else if(this.props.account == null) {
+                  this.setState({output: "Please Connect your Wallet"})
+                }
+                else{
+                  this.setState({output: "Please Enter a Number"})
+                }
+              }}
+              ref={(input) => { this.input = input }}
+              className="form-control form-control-lg"
+              placeholder="0"
+              required />
+            <div className="input-group-append">
+              <div className="input-group-text">
+                <img src={grumpyLogo} height='32' alt=""/>
+                &nbsp; Grumpy
+              </div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+            <button 
+              disabled={!this.props.account}
+              className="mt-2 mb-2 btn-text"
+              type="button"
+              onClick={() => { this.maxGrumpy() }}
+            >Max</button>
+          </div>
+          <div>
+            <label className="float-left"><b>Output</b></label>
+            <span className="float-right text-muted">
+            </span>
+          </div>
+          <div className="input-group mb-2">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="0"
+              value={this.state.output}
+              disabled
+            />
+            <div className="input-group-append">
+              <div className="input-group-text">
+                <img src={pawthLogo} height='32' alt=""/>
+                &nbsp;&nbsp;&nbsp; PAWTH
+              </div>
+            </div>
+          </div>
+          <div className="mb-5">
+            <span className="float-left text-muted d-none d-sm-block">Exchange Rate</span>
+            <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
+          </div>
+          <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP!</button>
+        </form>
+      );
+    }
+    
   }
 }
 

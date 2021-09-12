@@ -26,6 +26,8 @@ class Main extends Component {
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}
         swapGrumpyForPawth={this.props.swapGrumpyForPawth}
+        grumpyApproved={this.props.grumpyApproved}
+        approveGrumpyTransaction={this.props.approveGrumpyTransaction}
       />
     } else {
       content = <SwapPawthForGrumpy
@@ -73,6 +75,12 @@ class Main extends Component {
 
           </div>
 
+          
+
+        </div>
+        <div>
+                <p className="smallFont">Grumpy: 0xFdB85Dd4A9CE105C97a85B33f714c143bBe81DA5 </p>
+                <p className="smallFont">Pawth: 0xFdB85Dd4A9CE105C97a85B33f714c143bBe81DA5 </p>
         </div>
 
       </div>
