@@ -85,6 +85,7 @@ class App extends Component {
 
   swapGrumpyForPawth = (grumpyAmount) => {
     this.setState({ loading: true })
+    console.log(grumpyAmount)
     this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ showAdditionalTxBanner: true })
       this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
