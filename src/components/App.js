@@ -85,19 +85,17 @@ class App extends Component {
 
   approveGrumpyTransaction = (grumpyAmount) => {
     this.setState({ loading: true })
-    this.setState({grumpyApproved: true})
-    console.log(grumpyAmount)
-    this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account }).on('confirmation', (confirmationNumber, receipt) => {
       this.setState({ showAdditionalTxBanner: true })
-    this.setState({loading:false})
+      this.setState({grumpyApproved: true})
+      this.setState({loading:false})
     })
   }
 
   swapGrumpyForPawth = (grumpyAmount) => {
     this.setState({loading:true})
-    console.log(grumpyAmount)
-      this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
+    this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
       this.setState({grumpyApproved:false})
     })
   }
@@ -121,9 +119,9 @@ class App extends Component {
       account: null,
       grumpyApproved:false,
       grumpy: {},
-      grumpyAddress: '',
+      grumpyAddress: '0x7cD6C4d2bf37B666AB7b40abDFD8DB5CB53caD21',
       pawth: {},
-      pawthAddress: '',
+      pawthAddress: '0x9b6c5f27A8d29593a155e9e61663363E7d261f76',
       grumpyPawthSwap: {},
       grumpyPawthSwapBalance: '0',
       grumpyBalance: '0',
@@ -138,6 +136,8 @@ class App extends Component {
   render() {
     let content
     content = <Main
+      grumpyAddress={this.state.grumpyAddress}
+      pawthAddress={this.state.pawthAddress}
       grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
       pawthBalance={this.state.pawthBalance}
       grumpyBalance={this.state.grumpyBalance}

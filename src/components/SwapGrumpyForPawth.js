@@ -101,7 +101,7 @@ class SwapGrumpyForPawth extends Component {
             <span className="float-left text-muted d-none d-sm-block">Exchange Rate</span>
             <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
           </div>
-          <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">APPROVE TRANSACTION!</button>
+          <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">Approve Grumpy</button>
         </form>
       );
     }
@@ -179,7 +179,7 @@ class SwapGrumpyForPawth extends Component {
             <span className="float-left text-muted d-none d-sm-block">Exchange Rate</span>
             <span className="float-right text-muted">100k GRUMPY = 1 PAWTH</span>
           </div>
-          <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">SWAP!</button>
+          <button disabled={!this.props.account} type="submit" className="btn pawth_color_2 btn-block btn-lg">Swap!</button>
         </form>
       );
     }

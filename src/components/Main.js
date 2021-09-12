@@ -75,12 +75,10 @@ class Main extends Component {
 
           </div>
 
-          
-
         </div>
         <div>
-                <p className="smallFont">Grumpy: 0xFdB85Dd4A9CE105C97a85B33f714c143bBe81DA5 </p>
-                <p className="smallFont">Pawth: 0xFdB85Dd4A9CE105C97a85B33f714c143bBe81DA5 </p>
+          <p className="smallFont">Grumpy: {this.props.grumpyAddress} </p>
+          <p className="smallFont">Pawth: {this.props.pawthAddress} </p>
         </div>
 
       </div>
