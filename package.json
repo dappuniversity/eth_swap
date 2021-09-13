@@ -6,6 +6,7 @@
   "author": "gregory@dappuniversity.com",
   "dependencies": {
     "@metamask/jazzicon": "^2.0.0",
+    "@primer/octicons-react": "^15.1.0",
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-es2015": "6.24.1",
@@ -22,6 +23,7 @@
     "openzeppelin-solidity": "^4.3.1",
     "react": "16.8.4",
     "react-bootstrap": "1.0.0-beta.5",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "16.8.4",
     "react-scripts": "2.1.3",
     "truffle": "5.0.5",

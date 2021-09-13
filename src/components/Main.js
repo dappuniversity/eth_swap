@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import SwapPawthForGrumpy from './SwapPawthForGrumpy'
 import SwapGrumpyForPawth from './SwapGrumpyForPawth'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { CopyIcon, CheckIcon } from '@primer/octicons-react'
+
 import "./App.css"
 class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
       currentForm: 'buy',
-      showDirectionalBtns: false
+      showDirectionalBtns: false,
+      value: this.props.grumpyAddress,
+      copied: false,
+      copiedPawth: false
     }
   }
 
@@ -75,9 +81,68 @@ class Main extends Component {
 
           </div>
           <hr/>
-          <div class="accordion" id="accordionExample">
-            <p className="smallFont">Grumpy: {this.props.grumpyAddress} </p>  
-            <p className="smallFont">Pawth: {this.props.pawthAddress} </p>
+          <div className="container">
+            <div className="row">
+              <div className="col d-flex justify-content-center mb-3">
+                Addresses
+              </div>
+            </div>
+            <div className="row">
+              <div className="col d-flex">
+                <div className="input-group input-group-sm mb-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">Grumpy</span>
+                  </div>
+                  <input
+                    readOnly
+                    value={this.props.grumpyAddress}
+                    type="text"
+                    className="form-control form-control-sm"
+                    placeholder="0"
+                    required 
+                  />
+                  <div className="input-group-append">
+                    <span className="input-group-text">
+                      <CopyToClipboard text={this.props.grumpyAddress}
+                        onCopy={() => {
+                          this.setState({copied: true})
+                          setTimeout(() => this.setState({copied: false}), 3000) 
+                        }}>
+                        <button className="btn-text">{ this.state.copied ? <CheckIcon /> : <CopyIcon />}</button>
+                      </CopyToClipboard>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col d-flex">
+                <div className="input-group input-group-sm mb-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">Pawth</span>
+                  </div>
+                  <input
+                    readOnly
+                    value={this.props.pawthAddress}
+                    type="text"
+                    className="form-control form-control-sm"
+                    placeholder="0"
+                    required 
+                  />
+                  <div className="input-group-append">
+                    <span className="input-group-text">
+                      <CopyToClipboard text={this.props.pawthAddress}
+                        onCopy={() => {
+                          this.setState({copiedPawth: true})
+                          setTimeout(() => this.setState({copiedPawth: false}), 3000) 
+                        }}>
+                        <button className="btn-text">{ this.state.copiedPawth ? <CheckIcon /> : <CopyIcon />}</button>
+                      </CopyToClipboard>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
