@@ -74,11 +74,11 @@ class Main extends Component {
             {content}
 
           </div>
-
-        </div>
-        <div>
-          <p className="smallFont">Grumpy: {this.props.grumpyAddress} </p>
-          <p className="smallFont">Pawth: {this.props.pawthAddress} </p>
+          <hr/>
+          <div class="accordion" id="accordionExample">
+            <p className="smallFont">Grumpy: {this.props.grumpyAddress} </p>  
+            <p className="smallFont">Pawth: {this.props.pawthAddress} </p>
+          </div>
         </div>
 
       </div>
