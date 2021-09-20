@@ -104,4 +104,17 @@ body {
   color: black;
   text-align: center;
 }
+
+.descriptiveFont {
+  color: black;
+  text-align: center;
+  font-weight: 1000;
+}
+
+.background {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+
 /* End of Loading Animation */

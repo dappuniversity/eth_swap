@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import Jazzicon from '@metamask/jazzicon'
 import pawthLogo from '../pawth-horizontal.png'
 import Grumpy from '../abis/Grumpy.json'
-import Pawth from '../abis/PawthereumTest.json' // TODO: CHANGE THIS WHEN GOING LIVE
+import Pawth from '../abis/Pawthereum.json' // TODO: CHANGE THIS WHEN GOING LIVE
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
 import Main from './Main'
 import './App.css'
@@ -94,7 +94,7 @@ class App extends Component {
 
   swapGrumpyForPawth = (grumpyAmount) => {
     this.setState({loading:true})
-    this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.grumpyPawthSwap.methods.swapGrumpyForPawth(grumpyAmount).send({ from: this.state.account }).on('confirmation', (hash) => {
       this.setState({ loading: false })
       this.setState({grumpyApproved:false})
     })
@@ -119,9 +119,10 @@ class App extends Component {
       account: null,
       grumpyApproved:false,
       grumpy: {},
-      grumpyAddress: '0x7cD6C4d2bf37B666AB7b40abDFD8DB5CB53caD21',
+      grumpyAddress: '0x4b01D88869822B3Cb9B938C66B5b3E1ce0061314',
       pawth: {},
-      pawthAddress: '0x9b6c5f27A8d29593a155e9e61663363E7d261f76',
+      pawthAddress: '0xb6739cCD86fd6953814a7578e743f1913AAA074E',
+      swapAddress: '0x82F88782b1Cec0CDe9DA07Fc92267A56948C804b',
       grumpyPawthSwap: {},
       grumpyPawthSwapBalance: '0',
       grumpyBalance: '0',
@@ -138,6 +139,7 @@ class App extends Component {
     content = <Main
       grumpyAddress={this.state.grumpyAddress}
       pawthAddress={this.state.pawthAddress}
+      swapAddress={this.state.swapAddress}
       grumpyPawthSwapBalance={this.state.grumpyPawthSwapBalance}
       pawthBalance={this.state.pawthBalance}
       grumpyBalance={this.state.grumpyBalance}
@@ -146,6 +148,7 @@ class App extends Component {
       approveGrumpyTransaction={this.approveGrumpyTransaction}
       swapGrumpyForPawth={this.swapGrumpyForPawth}
       grumpyApproved={this.state.grumpyApproved}
+      loading={this.state.loading}
     />
 
     return (

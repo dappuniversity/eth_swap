@@ -1,5 +1,5 @@
 const Grumpy = artifacts.require("Grumpy");
-const Pawth = artifacts.require("PawthereumTest");
+const Pawth = artifacts.require("Pawthereum");
 const GrumpyPawthSwap = artifacts.require("GrumpyPawthSwap");
 
 module.exports = async function(deployer) {

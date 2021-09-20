@@ -1,10 +1,11 @@
 pragma solidity ^0.6.12;
 
 abstract contract Context {
-    function _msgSender() internal virtual view returns (address payable) {
+    function _msgSender() internal view virtual returns (address payable) {
         return msg.sender;
     }
-    function _msgData() internal virtual view returns (bytes memory) {
+
+    function _msgData() internal view virtual returns (bytes memory) {
         this;
         return msg.data;
     }
@@ -12,15 +13,20 @@ abstract contract Context {
 
 interface IERC20 {
     function totalSupply() external view returns (uint256);
+
     function balanceOf(address account) external view returns (uint256);
+
     function transfer(address recipient, uint256 amount)
         external
         returns (bool);
+
     function allowance(address owner, address spender)
         external
         view
         returns (uint256);
+
     function approve(address spender, uint256 amount) external returns (bool);
+
     function transferFrom(
         address sender,
         address recipient,
@@ -42,10 +48,10 @@ library SafeMath {
 
         return c;
     }
+
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         return sub(a, b, "SafeMath: subtraction overflow");
     }
-
 
     function sub(
         uint256 a,
@@ -69,11 +75,9 @@ library SafeMath {
         return c;
     }
 
-
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
         return div(a, b, "SafeMath: division by zero");
     }
-
 
     function div(
         uint256 a,
@@ -90,7 +94,6 @@ library SafeMath {
         return mod(a, b, "SafeMath: modulo by zero");
     }
 
-
     function mod(
         uint256 a,
         uint256 b,
@@ -101,21 +104,16 @@ library SafeMath {
     }
 }
 
-
 library Address {
-
     function isContract(address account) internal view returns (bool) {
         bytes32 codehash;
 
-
-            bytes32 accountHash
-         = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
+        bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
         assembly {
             codehash := extcodehash(account)
         }
         return (codehash != accountHash && codehash != 0x0);
     }
-
 
     function sendValue(address payable recipient, uint256 amount) internal {
         require(
@@ -129,7 +127,6 @@ library Address {
             "Address: unable to send value, recipient may have reverted"
         );
     }
-
 
     function functionCall(address target, bytes memory data)
         internal
@@ -146,7 +143,6 @@ library Address {
         return _functionCallWithValue(target, data, 0, errorMessage);
     }
 
-
     function functionCallWithValue(
         address target,
         bytes memory data,
@@ -160,7 +156,6 @@ library Address {
                 "Address: low-level call with value failed"
             );
     }
-
 
     function functionCallWithValue(
         address target,
@@ -191,7 +186,6 @@ library Address {
             return returndata;
         } else {
             if (returndata.length > 0) {
-
                 assembly {
                     let returndata_size := mload(returndata)
                     revert(add(32, returndata), returndata_size)
@@ -203,7 +197,6 @@ library Address {
     }
 }
 
-
 contract Ownable is Context {
     address private _owner;
 
@@ -212,13 +205,11 @@ contract Ownable is Context {
         address indexed newOwner
     );
 
-
     constructor() internal {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
     }
-
 
     function owner() public view returns (address) {
         return _owner;
@@ -229,12 +220,10 @@ contract Ownable is Context {
         _;
     }
 
-
     function renounceOwnership() public virtual onlyOwner {
         emit OwnershipTransferred(_owner, address(0));
         _owner = address(0);
     }
-
 
     function transferOwnership(address newOwner) public virtual onlyOwner {
         require(
@@ -246,9 +235,10 @@ contract Ownable is Context {
     }
 }
 
-
 interface IUniswapV2Factory {
-    function createPair(address tokenA, address tokenB) external returns (address pair);
+    function createPair(address tokenA, address tokenB)
+        external
+        returns (address pair);
 }
 
 interface IUniswapV2Pair {
@@ -257,66 +247,86 @@ interface IUniswapV2Pair {
 
 interface IUniswapV2Router01 {
     function factory() external pure returns (address);
+
     function WETH() external pure returns (address);
+
     function addLiquidity(
         address tokenA,
         address tokenB,
-        uint amountADesired,
-        uint amountBDesired,
-        uint amountAMin,
-        uint amountBMin,
+        uint256 amountADesired,
+        uint256 amountBDesired,
+        uint256 amountAMin,
+        uint256 amountBMin,
         address to,
-        uint deadline
-    ) external returns (uint amountA, uint amountB, uint liquidity);
+        uint256 deadline
+    )
+        external
+        returns (
+            uint256 amountA,
+            uint256 amountB,
+            uint256 liquidity
+        );
+
     function addLiquidityETH(
         address token,
-        uint amountTokenDesired,
-        uint amountTokenMin,
-        uint amountETHMin,
+        uint256 amountTokenDesired,
+        uint256 amountTokenMin,
+        uint256 amountETHMin,
         address to,
-        uint deadline
-    ) external payable returns (uint amountToken, uint amountETH, uint liquidity);
+        uint256 deadline
+    )
+        external
+        payable
+        returns (
+            uint256 amountToken,
+            uint256 amountETH,
+            uint256 liquidity
+        );
 }
 
 interface IUniswapV2Router02 is IUniswapV2Router01 {
     function removeLiquidityETHSupportingFeeOnTransferTokens(
-      address token,
-      uint liquidity,
-      uint amountTokenMin,
-      uint amountETHMin,
-      address to,
-      uint deadline
-    ) external returns (uint amountETH);
+        address token,
+        uint256 liquidity,
+        uint256 amountTokenMin,
+        uint256 amountETHMin,
+        address to,
+        uint256 deadline
+    ) external returns (uint256 amountETH);
+
     function swapExactTokensForETHSupportingFeeOnTransferTokens(
-        uint amountIn,
-        uint amountOutMin,
+        uint256 amountIn,
+        uint256 amountOutMin,
         address[] calldata path,
         address to,
-        uint deadline
+        uint256 deadline
     ) external;
+
     function swapExactTokensForTokensSupportingFeeOnTransferTokens(
-        uint amountIn,
-        uint amountOutMin,
+        uint256 amountIn,
+        uint256 amountOutMin,
         address[] calldata path,
         address to,
-        uint deadline
+        uint256 deadline
     ) external;
+
     function swapExactETHForTokensSupportingFeeOnTransferTokens(
-        uint amountOutMin,
+        uint256 amountOutMin,
         address[] calldata path,
         address to,
-        uint deadline
+        uint256 deadline
     ) external payable;
 }
+
 // change "name1" into ur name
-    contract PawthereumTest is Context, IERC20, Ownable {
+contract Pawthereum is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
-//change "name1" and "symbol"
-    string private _name = "PawthereumTest";
-    string private _symbol = "PAWTHTEST";
-    
+    //change "name1" and "symbol"
+    string private _name = "Pawthereum";
+    string private _symbol = "PAWTH";
+
     uint8 private _decimals = 9;
 
     mapping(address => uint256) internal _reflectionBalance;
@@ -324,7 +334,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     mapping(address => mapping(address => uint256)) internal _allowances;
 
     uint256 private constant MAX = ~uint256(0);
-    
+
     // change this for total supply (100e8 = 100) (100000000e8 = 100000000) (dont forget the e8 it has to be there)
     uint256 internal _tokenTotal = 1000000000e9;
     // change this for total supply ^^^^^^^^^^^^^^^^^^^^^
@@ -333,7 +343,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     mapping(address => bool) isTaxless;
     mapping(address => bool) internal _isExcluded;
     address[] internal _excluded;
-    
+
     uint256 public _feeDecimal = 2;
     // thats the distribution to holders (400 = 4%)
     uint256 public _taxFee = 200;
@@ -343,32 +353,36 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     uint256 public _burnFee = 0;
     // this goes to the marketing wallet (line 403)
     uint256 public _marketingFee = 100;
-	// this goes to the charity wallet 
-	uint256 public _charityFee = 200;
-	
+    // this goes to the charity wallet
+    uint256 public _charityFee = 200;
+
     uint256 public _taxFeeTotal;
     uint256 public _burnFeeTotal;
     uint256 public _liquidityFeeTotal;
     uint256 public _marketingFeeTotal;
-	uint256 public _charityFeeTotal;
+    uint256 public _charityFeeTotal;
 
     address public marketingWallet;
-	address public charityWallet;
+    address public charityWallet;
 
     bool public isTaxActive = true;
     bool private inSwapAndLiquify;
     bool public swapAndLiquifyEnabled = true;
-    
+
     uint256 public maxTxAmount = _tokenTotal;
     uint256 public minTokensBeforeSwap = 10_000e9;
-    
-    IUniswapV2Router02 public  uniswapV2Router;
-    address public  uniswapV2Pair;
+
+    IUniswapV2Router02 public uniswapV2Router;
+    address public uniswapV2Pair;
 
     event SwapAndLiquifyEnabledUpdated(bool enabled);
-    event SwapAndLiquify(uint256 tokensSwapped,uint256 ethReceived, uint256 tokensIntoLiqudity);
+    event SwapAndLiquify(
+        uint256 tokensSwapped,
+        uint256 ethReceived,
+        uint256 tokensIntoLiqudity
+    );
 
-    modifier lockTheSwap {
+    modifier lockTheSwap() {
         inSwapAndLiquify = true;
         _;
         inSwapAndLiquify = false;
@@ -376,12 +390,11 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
 
     constructor() public {
         //paste the wallet adress, that earns the marketingFee here
-        marketingWallet = 0x971dB08176bba44e7D5D0733D9f1127684033E47;
-		//paste the wallet address that earns the charityFee here
-		charityWallet = 0xaf284EfD8C649522120a05bfeeB36F2b6e7c970C;
+        marketingWallet = 0x6DFcd4331b0d86bfe0318706C76B832dA4C03C1B;
+        //paste the wallet address that earns the charityFee here
+        charityWallet = 0xa56891cfBd0175E6Fc46Bf7d647DE26100e95C78;
         //paste the wallet ^^^^^^^^^^^^^^^^^^^^^ adress, that earns the marketingFee here
 
-      
         isTaxless[_msgSender()] = true;
         isTaxless[address(this)] = true;
 
@@ -389,11 +402,14 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         emit Transfer(address(0), _msgSender(), _tokenTotal);
     }
 
-    function init() external onlyOwner() {
+    function init() external onlyOwner {
         // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E); // for BSC
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D); // for Ethereum
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(
+            0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
+        ); // for Ethereum
         // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506); // for Sushi testnet
-        uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory()).createPair(address(this), _uniswapV2Router.WETH());
+        uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
+            .createPair(address(this), _uniswapV2Router.WETH());
         uniswapV2Router = _uniswapV2Router;
     }
 
@@ -409,29 +425,29 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         return _decimals;
     }
 
-    function totalSupply() public override view returns (uint256) {
+    function totalSupply() public view override returns (uint256) {
         return _tokenTotal;
     }
 
-    function balanceOf(address account) public override view returns (uint256) {
+    function balanceOf(address account) public view override returns (uint256) {
         if (_isExcluded[account]) return _tokenBalance[account];
         return tokenFromReflection(_reflectionBalance[account]);
     }
 
     function transfer(address recipient, uint256 amount)
         public
-        override
         virtual
+        override
         returns (bool)
     {
-       _transfer(_msgSender(),recipient,amount);
+        _transfer(_msgSender(), recipient, amount);
         return true;
     }
 
     function allowance(address owner, address spender)
         public
-        override
         view
+        override
         returns (uint256)
     {
         return _allowances[owner][spender];
@@ -450,10 +466,17 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         address sender,
         address recipient,
         uint256 amount
-    ) public override virtual returns (bool) {
-        _transfer(sender,recipient,amount);
-               
-        _approve(sender,_msgSender(),_allowances[sender][_msgSender()].sub( amount,"ERC20: transfer amount exceeds allowance"));
+    ) public virtual override returns (bool) {
+        _transfer(sender, recipient, amount);
+
+        _approve(
+            sender,
+            _msgSender(),
+            _allowances[sender][_msgSender()].sub(
+                amount,
+                "ERC20: transfer amount exceeds allowance"
+            )
+        );
         return true;
     }
 
@@ -500,9 +523,9 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
             return tokenAmount.mul(_getReflectionRate());
         } else {
             return
-                tokenAmount.sub(tokenAmount.mul(_taxFee).div(10** _feeDecimal + 2)).mul(
-                    _getReflectionRate()
-                );
+                tokenAmount
+                    .sub(tokenAmount.mul(_taxFee).div(10**_feeDecimal + 2))
+                    .mul(_getReflectionRate());
         }
     }
 
@@ -519,7 +542,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         return reflectionAmount.div(currentRate);
     }
 
-    function excludeAccount(address account) external onlyOwner() {
+    function excludeAccount(address account) external onlyOwner {
         require(
             account != address(uniswapV2Router),
             "ERC20: We can not exclude Uniswap router."
@@ -534,7 +557,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         _excluded.push(account);
     }
 
-    function includeAccount(address account) external onlyOwner() {
+    function includeAccount(address account) external onlyOwner {
         require(_isExcluded[account], "ERC20: Account is already included");
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_excluded[i] == account) {
@@ -567,40 +590,60 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
         require(amount > 0, "Transfer amount must be greater than zero");
-        
+
         require(amount <= maxTxAmount, "Transfer Limit exceeded!");
-        
+
         uint256 contractTokenBalance = balanceOf(address(this));
         bool overMinTokenBalance = contractTokenBalance >= minTokensBeforeSwap;
-        if (!inSwapAndLiquify && overMinTokenBalance && sender != uniswapV2Pair && swapAndLiquifyEnabled) {
+        if (
+            !inSwapAndLiquify &&
+            overMinTokenBalance &&
+            sender != uniswapV2Pair &&
+            swapAndLiquifyEnabled
+        ) {
             swapAndLiquify(contractTokenBalance);
         }
 
         uint256 transferAmount = amount;
         uint256 rate = _getReflectionRate();
 
-        if(isTaxActive && !isTaxless[_msgSender()] && !isTaxless[recipient] && !inSwapAndLiquify){
-            transferAmount = collectFee(sender,amount,rate);
+        if (
+            isTaxActive &&
+            !isTaxless[_msgSender()] &&
+            !isTaxless[recipient] &&
+            !inSwapAndLiquify
+        ) {
+            transferAmount = collectFee(sender, amount, rate);
         }
 
-        _reflectionBalance[sender] = _reflectionBalance[sender].sub(amount.mul(rate));
-        _reflectionBalance[recipient] = _reflectionBalance[recipient].add(transferAmount.mul(rate));
+        _reflectionBalance[sender] = _reflectionBalance[sender].sub(
+            amount.mul(rate)
+        );
+        _reflectionBalance[recipient] = _reflectionBalance[recipient].add(
+            transferAmount.mul(rate)
+        );
 
         if (_isExcluded[sender]) {
             _tokenBalance[sender] = _tokenBalance[sender].sub(amount);
         }
         if (_isExcluded[recipient]) {
-            _tokenBalance[recipient] = _tokenBalance[recipient].add(transferAmount);
+            _tokenBalance[recipient] = _tokenBalance[recipient].add(
+                transferAmount
+            );
         }
 
         emit Transfer(sender, recipient, transferAmount);
     }
-    
-    function collectFee(address account, uint256 amount, uint256 rate) private returns (uint256) {
+
+    function collectFee(
+        address account,
+        uint256 amount,
+        uint256 rate
+    ) private returns (uint256) {
         uint256 transferAmount = amount;
-        
+
         //@dev tax fee
-        if(_taxFee != 0){
+        if (_taxFee != 0) {
             uint256 taxFee = amount.mul(_taxFee).div(10**(_feeDecimal + 2));
             transferAmount = transferAmount.sub(taxFee);
             _reflectionTotal = _reflectionTotal.sub(taxFee.mul(rate));
@@ -608,51 +651,68 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         }
 
         //@dev liquidity fee
-        if(_liquidityFee != 0){
-            uint256 liquidityFee = amount.mul(_liquidityFee).div(10**(_feeDecimal + 2));
+        if (_liquidityFee != 0) {
+            uint256 liquidityFee = amount.mul(_liquidityFee).div(
+                10**(_feeDecimal + 2)
+            );
             transferAmount = transferAmount.sub(liquidityFee);
-            _reflectionBalance[address(this)] = _reflectionBalance[address(this)].add(liquidityFee.mul(rate));
-            if(_isExcluded[address(this)]){
-                _tokenBalance[address(this)] = _tokenBalance[address(this)].add(liquidityFee);
+            _reflectionBalance[address(this)] = _reflectionBalance[
+                address(this)
+            ].add(liquidityFee.mul(rate));
+            if (_isExcluded[address(this)]) {
+                _tokenBalance[address(this)] = _tokenBalance[address(this)].add(
+                    liquidityFee
+                );
             }
             _liquidityFeeTotal = _liquidityFeeTotal.add(liquidityFee);
-            emit Transfer(account,address(this),liquidityFee);
+            emit Transfer(account, address(this), liquidityFee);
         }
-      
+
         //@dev burn fee
-        if(_burnFee != 0){
+        if (_burnFee != 0) {
             uint256 burnFee = amount.mul(_burnFee).div(10**(_feeDecimal + 2));
             transferAmount = transferAmount.sub(burnFee);
             _tokenTotal = _tokenTotal.sub(burnFee);
             _reflectionTotal = _reflectionTotal.sub(burnFee.mul(rate));
             _burnFeeTotal = _burnFeeTotal.add(burnFee);
-            emit Transfer(account,address(0),burnFee);
+            emit Transfer(account, address(0), burnFee);
         }
-        
+
         //@dev Marketing fee
-        if(_marketingFee != 0){
-            uint256 marketingFee = amount.mul(_marketingFee).div(10**(_feeDecimal + 2));
+        if (_marketingFee != 0) {
+            uint256 marketingFee = amount.mul(_marketingFee).div(
+                10**(_feeDecimal + 2)
+            );
             transferAmount = transferAmount.sub(marketingFee);
-            _reflectionBalance[marketingWallet] = _reflectionBalance[marketingWallet].add(marketingFee.mul(rate));
+            _reflectionBalance[marketingWallet] = _reflectionBalance[
+                marketingWallet
+            ].add(marketingFee.mul(rate));
             if (_isExcluded[marketingWallet]) {
-                _tokenBalance[marketingWallet] = _tokenBalance[marketingWallet].add(marketingFee);
+                _tokenBalance[marketingWallet] = _tokenBalance[marketingWallet]
+                    .add(marketingFee);
             }
             _marketingFeeTotal = _marketingFeeTotal.add(marketingFee);
-            emit Transfer(account,marketingWallet,marketingFee);
+            emit Transfer(account, marketingWallet, marketingFee);
         }
-		
+
         //@dev Charity fee
-        if(_charityFee != 0){
-            uint256 charityFee = amount.mul(_charityFee).div(10**(_feeDecimal + 2));
+        if (_charityFee != 0) {
+            uint256 charityFee = amount.mul(_charityFee).div(
+                10**(_feeDecimal + 2)
+            );
             transferAmount = transferAmount.sub(charityFee);
-            _reflectionBalance[charityWallet] = _reflectionBalance[charityWallet].add(charityFee.mul(rate));
+            _reflectionBalance[charityWallet] = _reflectionBalance[
+                charityWallet
+            ].add(charityFee.mul(rate));
             if (_isExcluded[charityWallet]) {
-                _tokenBalance[charityWallet] = _tokenBalance[charityWallet].add(charityFee);
+                _tokenBalance[charityWallet] = _tokenBalance[charityWallet].add(
+                    charityFee
+                );
             }
             _charityFeeTotal = _charityFeeTotal.add(charityFee);
-            emit Transfer(account,charityWallet,charityFee);
+            emit Transfer(account, charityWallet, charityFee);
         }
-        
+
         return transferAmount;
     }
 
@@ -673,22 +733,21 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
             return _reflectionTotal.div(_tokenTotal);
         return reflectionSupply.div(tokenSupply);
     }
-    
-     function swapAndLiquify(uint256 contractTokenBalance) private lockTheSwap {
-         if(contractTokenBalance > maxTxAmount)
+
+    function swapAndLiquify(uint256 contractTokenBalance) private lockTheSwap {
+        if (contractTokenBalance > maxTxAmount)
             contractTokenBalance = maxTxAmount;
         uint256 half = contractTokenBalance.div(2);
         uint256 otherHalf = contractTokenBalance.sub(half);
 
-
         uint256 initialBalance = address(this).balance;
 
-        swapTokensForEth(half); 
+        swapTokensForEth(half);
 
         uint256 newBalance = address(this).balance.sub(initialBalance);
 
         addLiquidity(otherHalf, newBalance);
-        
+
         emit SwapAndLiquify(half, newBalance, otherHalf);
     }
 
@@ -701,7 +760,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
 
         uniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(
             tokenAmount,
-            0, 
+            0,
             path,
             address(this),
             block.timestamp
@@ -714,63 +773,67 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
         uniswapV2Router.addLiquidityETH{value: ethAmount}(
             address(this),
             tokenAmount,
-            0, 
-            0, 
+            0,
+            0,
             address(this),
             block.timestamp
         );
     }
-   
+
     function setPair(address pair) external onlyOwner {
         uniswapV2Pair = pair;
     }
-    
+
     function setMarketingWallet(address account) external onlyOwner {
         marketingWallet = account;
     }
-	
-	function setCharityWallet(address account) external onlyOwner {
-		charityWallet = account;
-	}
-	
+
+    function setCharityWallet(address account) external onlyOwner {
+        charityWallet = account;
+    }
 
     function setTaxless(address account, bool value) external onlyOwner {
         isTaxless[account] = value;
     }
-    
+
     function setSwapAndLiquifyEnabled(bool enabled) external onlyOwner {
         swapAndLiquifyEnabled = enabled;
         SwapAndLiquifyEnabledUpdated(enabled);
     }
-    
+
     function setTaxActive(bool value) external onlyOwner {
         isTaxActive = value;
     }
-    
+
     function setTaxFee(uint256 fee) external onlyOwner {
+        require(fee <= 200, "You can't set reflections fee above 2 percent.");
         _taxFee = fee;
     }
-    
+
     function setBurnFee(uint256 fee) external onlyOwner {
+        require(fee <= 200, "You can't set burn fees above 2 percent.");
         _burnFee = fee;
     }
-    
+
     function setLiquidityFee(uint256 fee) external onlyOwner {
+        require(fee <= 200, "You can't set this fee above 2 percent.");
         _liquidityFee = fee;
     }
- 
+
     function setMarketingFee(uint256 fee) external onlyOwner {
+        require(fee <= 200, "You can't set the marketing fee above 2 percent.");
         _marketingFee = fee;
     }
-	
-	function setCharityFee(uint256 fee) external onlyOwner {
-		_charityFee = fee;
-	}
- 
+
+    function setCharityFee(uint256 fee) external onlyOwner {
+        require(fee <= 200, "You can't set the charity fee above 2 percent.");
+        _charityFee = fee;
+    }
+
     function setMaxTxAmount(uint256 amount) external onlyOwner {
         maxTxAmount = amount;
     }
-    
+
     function setMinTokensBeforeSwap(uint256 amount) external onlyOwner {
         minTokensBeforeSwap = amount;
     }
