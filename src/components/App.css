@@ -16,6 +16,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   font-family: "Comfortaa", cursive;
+  color: rgb(58, 57, 94);
 }
 
 .circle {
@@ -103,13 +104,12 @@ body {
 
 .smallFont {
   font-size: 15px;
-  color: black;
+  color: rgb(58, 57, 94);
   text-align: center;
 }
 
 .descriptiveFont {
-  color: black;
-  text-align: center;
+  color: rgb(58, 57, 94);
   font-weight: 1000;
 }
 
