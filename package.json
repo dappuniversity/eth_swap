@@ -1,9 +1,9 @@
 {
-  "name": "eth-swap",
+  "name": "grumpy-pawth-swap",
   "version": "0.1.0",
-  "homepage": "http://pawthereum.github.io/Grumpy_Pawth_Swap",
-  "description": "An Instant ERC-20 Cryptocurrency Exchange",
-  "author": "gregory@dappuniversity.com",
+  "homepage": "https://swap.pawthereum.com",
+  "description": "Swap your grumpy for pawth!",
+  "author": "Pawthereum",
   "dependencies": {
     "@metamask/jazzicon": "^2.0.0",
     "@primer/octicons-react": "^15.1.0",
