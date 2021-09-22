@@ -4,16 +4,16 @@ const GrumpyPawthSwap = artifacts.require("GrumpyPawthSwap");
 
 module.exports = async function(deployer) {
 
-  // Deploy Grumpy
-  await deployer.deploy(Grumpy);
-  const grumpy = await Grumpy.deployed()
+  // // Deploy Grumpy
+  // await deployer.deploy(Grumpy);
+  // const grumpy = await Grumpy.deployed()
 
   // Deploy Pawth
   await deployer.deploy(Pawth);
   const pawth = await Pawth.deployed()
 
   // Deploy GrumpyPawthSwap
-  await deployer.deploy(GrumpyPawthSwap, grumpy.address, pawth.address);
+  await deployer.deploy(GrumpyPawthSwap, "0x93b2fff814fcaeffb01406e80b4ecd89ca6a021b", pawth.address);
   await GrumpyPawthSwap.deployed()
 
   // // Transfer all pawth to GrumpyPathSwap (1 billion)
@@ -23,3 +23,4 @@ module.exports = async function(deployer) {
   // // Transfer 100 Trillion grupy to user who deployed the contract
   // await grumpy.transfer(accounts[0], '100000000000000')
 };
+

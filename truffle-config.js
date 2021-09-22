@@ -27,6 +27,15 @@ module.exports = {
       network_id: 4,
       // skipDryRun: true
     },
+    mainnet: { 
+      provider: function() {
+        return new HDWalletProvider(privateKeys, `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`)
+      },
+      network_id: 1,
+      gas: 8728833,
+      gasPrice: 68000000000
+    },
+  
   },
   contracts_directory: './src/contracts/',
   contracts_build_directory: './src/abis/',

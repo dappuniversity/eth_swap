@@ -389,11 +389,9 @@ contract Pawthereum is Context, IERC20, Ownable {
     }
 
     constructor() public {
-        //paste the wallet adress, that earns the marketingFee here
         marketingWallet = 0x6DFcd4331b0d86bfe0318706C76B832dA4C03C1B;
-        //paste the wallet address that earns the charityFee here
+
         charityWallet = 0xa56891cfBd0175E6Fc46Bf7d647DE26100e95C78;
-        //paste the wallet ^^^^^^^^^^^^^^^^^^^^^ adress, that earns the marketingFee here
 
         isTaxless[_msgSender()] = true;
         isTaxless[address(this)] = true;

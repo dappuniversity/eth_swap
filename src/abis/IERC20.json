@@ -48679,7 +48679,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.3",
-  "updatedAt": "2021-09-19T19:16:07.518Z",
+  "updatedAt": "2021-09-22T00:18:35.818Z",
   "devdoc": {
     "events": {
       "Approval(address,address,uint256)": {
