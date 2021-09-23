@@ -188,7 +188,7 @@ class SwapGrumpyForPawth extends Component {
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
-          <button 
+            <button 
               disabled={!this.props.account}
               className="mt-2 mb-2 mr-4 btn-text"
               type="button"
