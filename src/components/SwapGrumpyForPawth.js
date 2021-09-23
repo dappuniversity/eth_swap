@@ -6,6 +6,7 @@ class SwapGrumpyForPawth extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      grumpyAllowanceApproved: false,
       grumpyToSwap: '0',
       output: '0'
     }
@@ -18,15 +19,32 @@ class SwapGrumpyForPawth extends Component {
       grumpyToSwap: this.props.grumpyBalance,
       output: max / 100000
     })
+    this.compareAllowanceToInput(this.input.value)
   }
 
-  handleChange(e) {
-    this.setState({ output: e.target.value.toString() });
+  compareAllowanceToInput (inputValue) {
+    if (this.props.allowance == '0') {
+      return this.setState({
+        grumpyAllowanceApproved: false
+      })
+    }
+    // TODO: ParseInt could run into edge cases where people can swap even if not yet approved
+    // their transaction will revert
+    const allowanceTruncated = parseInt(this.props.allowance.substr(0, this.props.allowance.length - 9))
+    if (allowanceTruncated >= parseInt(inputValue)) {
+      return this.setState({
+        grumpyAllowanceApproved: true
+      })
+    } else {
+      return this.setState({
+        grumpyAllowanceApproved: false
+      })
+    }
   }
 
   render() {
 
-    if (this.props.grumpyApproved === false ) {
+    if (!this.props.grumpyApproved && !this.state.grumpyAllowanceApproved) {
       return (
         <form className="mb-3" onSubmit={(event) => {
             event.preventDefault()
@@ -49,6 +67,7 @@ class SwapGrumpyForPawth extends Component {
                     grumpyToSwap: `${window.web3.utils.toWei(grumpyAmount, 'shannon')}`,// (grumpyAmount*10**9).toString(),
                     output: grumpyAmount / 100000
                   })
+                  this.compareAllowanceToInput(this.input.value)
                 }
                 else if(this.props.account == null) {
                   this.setState({output: "Please Connect your Wallet"})
@@ -56,7 +75,6 @@ class SwapGrumpyForPawth extends Component {
                 else{
                   this.setState({output: "Please Enter a Number"})
                 }
-
               }}
               ref={(input) => { this.input = input }}
               className="form-control form-control-lg"
@@ -112,7 +130,6 @@ class SwapGrumpyForPawth extends Component {
       );
     }
     else {
-      console.log(this.props.grumpyApproved)
       return (
         <form className="mb-3" onSubmit={(event) => {
             event.preventDefault()
@@ -134,6 +151,7 @@ class SwapGrumpyForPawth extends Component {
                     grumpyToSwap: `${window.web3.utils.toWei(grumpyAmount, 'shannon')}`,// (grumpyAmount*10**9).toString(),
                     output: grumpyAmount / 100000
                   })
+                  this.compareAllowanceToInput(this.input.value)
                 }
                 else if(this.props.account == null) {
                   this.setState({output: "Please Connect your Wallet"})

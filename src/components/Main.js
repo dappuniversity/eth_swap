@@ -28,6 +28,7 @@ class Main extends Component {
     if(this.state.currentForm === 'buy') {
       content = <SwapGrumpyForPawth
         account={this.props.account}
+        allowance={this.props.allowance}
         grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}
