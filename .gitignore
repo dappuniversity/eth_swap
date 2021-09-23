@@ -11,9 +11,6 @@
 # production
 /build
 
-#abis
-/src/abis
-
 # misc
 .DS_Store
 .env
