@@ -95,7 +95,7 @@ class App extends Component {
 
   approveGrumpyTransaction = (grumpyAmount) => {
     this.setState({ loading: true })
-    this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account })
+    this.state.grumpy.methods.approve(this.state.grumpyPawthSwap._address, grumpyAmount).send({ from: this.state.account })
     .on('confirmation', (confirmationNumber, receipt) => {
       this.setState({ showAdditionalTxBanner: true })
       this.setState({grumpyApproved: true})
