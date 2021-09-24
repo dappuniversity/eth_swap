@@ -8,6 +8,7 @@ import Pawth from '../abis/Pawthereum.json' // TODO: CHANGE THIS WHEN GOING LIVE
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
 import Main from './Main'
 import './App.css'
+import { AlertIcon } from '@primer/octicons-react'
 
 class App extends Component {
 
@@ -74,7 +75,11 @@ class App extends Component {
     document.getElementById('avatar').appendChild(Jazzicon(20, parseInt(this.state.account.slice(2, 10), 16)))
 
     const allowanceCall = await this.state.grumpy.methods.allowance(this.state.account, this.state.grumpyPawthSwap._address).call()
-    this.setState({ allowance: allowanceCall.toString() })
+    const allowance = allowanceCall.toString()
+    if (allowance !== '0') {
+      this.setState({ showApprovedWarning: true })
+    }
+    this.setState({ allowance })
 
     this.setState({ loading: false })
   }
@@ -85,10 +90,12 @@ class App extends Component {
       this.state.grumpyPawthSwap.methods.swapPawthForGrumpy(pawthAmount).send({ from: this.state.account })
       .on('transactionHash', (hash) => {
         this.setState({ loading: false })
+        this.setState({ showApprovedWarning: true })
       })
       .on('error', err => {
         console.log('error', err)
         this.setState({ loading: false })
+        this.setState({ showApprovedWarning: true })
       })
     })
   }
@@ -153,6 +160,7 @@ class App extends Component {
       etherscanLink: '',
       showSuccessMessage: false,
       showAdditionalTxBanner: false,
+      showApprovedWarning: false,
       loading: false
     }
   }
@@ -229,6 +237,21 @@ class App extends Component {
                   rel="noopener noreferrer"
                 >
                 </a>
+                {
+                  this.state.showApprovedWarning
+                  ?
+                  <div className="rounded shadow alert alert-warning alert-dismissible fade show" role="alert">
+                    <AlertIcon size="24" className="mr-2" />
+                    <strong>Avoid unnecessary transaction costs!</strong>
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <hr/>
+                    <p className="mb-0">You have already approved this dApp to swap your grumpy. Click "Max Approved" to input your approved grumpy amount!</p>
+                  </div>
+                  :
+                  <div></div>
+                }
                 {/* {
                   this.state.showAdditionalTxBanner 
                   ?
