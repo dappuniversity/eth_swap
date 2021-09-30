@@ -106,7 +106,7 @@ class SwapGrumpyForPawth extends Component {
             >Max Approved</button>
             <button 
               disabled={!this.props.account}
-              className="mt-2 mb-2 mr-4 btn-text"
+              className="mt-2 mb-2 btn-text"
               type="button"
               onClick={() => { this.maxSwapLimitGrumpy() }}
             >Max Swap Limit</button>
@@ -196,7 +196,7 @@ class SwapGrumpyForPawth extends Component {
             >Max Approved</button>
             <button 
               disabled={!this.props.account}
-              className="mt-2 mb-2 mr-4 btn-text"
+              className="mt-2 mb-2 btn-text"
               type="button"
               onClick={() => { this.maxSwapLimitGrumpy() }}
             >Max Swap Limit</button>
