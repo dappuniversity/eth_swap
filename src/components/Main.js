@@ -29,6 +29,7 @@ class Main extends Component {
       content = <SwapGrumpyForPawth
         account={this.props.account}
         allowance={this.props.allowance}
+        swapLimit={this.props.swapLimit}
         grumpyPawthSwapBalance={this.props.grumpyPawthSwapBalance}
         pawthBalance={this.props.pawthBalance}
         grumpyBalance={this.props.grumpyBalance}

@@ -12,21 +12,21 @@ class SwapGrumpyForPawth extends Component {
     }
   }
 
-  maxGrumpy () {
-    const max = window.web3.utils.fromWei(this.props.grumpyBalance, 'Shannon')
-    this.input.value = max.toString()
-    this.setState({ 
-      grumpyToSwap: this.props.grumpyBalance,
-      output: max / 100000
-    })
-    this.compareAllowanceToInput(this.input.value)
-  }
-
   maxApprovedGrumpy () {
     const max = window.web3.utils.fromWei(this.props.allowance, 'Shannon')
     this.input.value = max.toString()
     this.setState({ 
       grumpyToSwap: this.props.allowance,
+      output: max / 100000
+    })
+    this.compareAllowanceToInput(this.input.value)
+  }
+
+  maxSwapLimitGrumpy () {
+    const max = window.web3.utils.fromWei(this.props.swapLimit, 'Shannon')
+    this.input.value = max.toString()
+    this.setState({
+      grumpyToSwap: this.props.swapLimit,
       output: max / 100000
     })
     this.compareAllowanceToInput(this.input.value)
@@ -106,10 +106,10 @@ class SwapGrumpyForPawth extends Component {
             >Max Approved</button>
             <button 
               disabled={!this.props.account}
-              className="mt-2 mb-2 btn-text"
+              className="mt-2 mb-2 mr-4 btn-text"
               type="button"
-              onClick={() => { this.maxGrumpy() }}
-            >Max Balance</button>
+              onClick={() => { this.maxSwapLimitGrumpy() }}
+            >Max Swap Limit</button>
           </div>
           <div>
             <label className="float-left"><b>Output</b></label>
@@ -196,10 +196,10 @@ class SwapGrumpyForPawth extends Component {
             >Max Approved</button>
             <button 
               disabled={!this.props.account}
-              className="mt-2 mb-2 btn-text"
+              className="mt-2 mb-2 mr-4 btn-text"
               type="button"
-              onClick={() => { this.maxGrumpy() }}
-            >Max Balance</button>
+              onClick={() => { this.maxSwapLimitGrumpy() }}
+            >Max Swap Limit</button>
           </div>
           <div>
             <label className="float-left"><b>Output</b></label>

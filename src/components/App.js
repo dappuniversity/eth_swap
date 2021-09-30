@@ -81,6 +81,11 @@ class App extends Component {
     }
     this.setState({ allowance })
 
+    const swapLimitCall = await this.state.grumpyPawthSwap.methods.swapLimit(this.state.account).call()
+    const swapLimit = swapLimitCall.toString()
+    this.setState({ swapLimit })
+    console.log('swap limit', swapLimit)
+
     this.setState({ loading: false })
   }
 
@@ -147,6 +152,7 @@ class App extends Component {
     this.state = {
       account: null,
       allowance: '0',
+      swapLimit: '0',
       grumpyApproved:false,
       grumpy: {},
       grumpyAddress: '0x93b2fff814fcaeffb01406e80b4ecd89ca6a021b',
@@ -169,6 +175,7 @@ class App extends Component {
     let content
     content = <Main
       allowance={this.state.allowance}
+      swapLimit={this.state.swapLimit}
       grumpyAddress={this.state.grumpyAddress}
       pawthAddress={this.state.pawthAddress}
       swapAddress={this.state.swapAddress}

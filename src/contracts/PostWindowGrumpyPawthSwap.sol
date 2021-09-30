@@ -1465,7 +1465,7 @@ contract Pawthereum is Context, IERC20, Ownable {
     receive() external payable {}
 }
 
-contract PostWindowGrumpyPawthSwap {
+contract PostWindowGrumpyPawthSwap is Ownable {
     using SafeMath for uint256;
     using Address for address;
     
@@ -1572,6 +1572,18 @@ contract PostWindowGrumpyPawthSwap {
 
         // Emit an event
         emit GrumpySwappedForPawth(msg.sender, address(grumpy), _amount, rate);
+    }
+
+    function setSwapLimit(address account, uint256 limit) external onlyOwner {
+        _swapLimits[account] = limit;
+    }
+
+    function swapLimit(address account)
+        public
+        view
+        returns (uint256)
+    {
+        return _swapLimits[account];
     }
 
     function reclaim_all_pawth_tokens() public {
