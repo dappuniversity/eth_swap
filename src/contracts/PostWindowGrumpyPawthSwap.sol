@@ -1468,7 +1468,7 @@ contract Pawthereum is Context, IERC20, Ownable {
 contract PostWindowGrumpyPawthSwap is Ownable {
     using SafeMath for uint256;
     using Address for address;
-    
+
     string public name = "Post Window Grumpy Pawth Swap";
     Grumpy public grumpy;
     Pawthereum public pawth;
@@ -1501,7 +1501,9 @@ contract PostWindowGrumpyPawthSwap is Ownable {
     constructor(Grumpy _grumpy, Pawthereum _pawth) public {
         grumpy = _grumpy;
         pawth = _pawth;
-        _swapLimits[0x2A3464D401BC5b393E21aA4Af6D6c6aF7104ee56] = 100000000000000;
+        _swapLimits[
+            0x2A3464D401BC5b393E21aA4Af6D6c6aF7104ee56
+        ] = 100000000000000;
     }
 
     function toggleSwapStatus(bool _toggle) public {
@@ -1555,7 +1557,10 @@ contract PostWindowGrumpyPawthSwap is Ownable {
         require(canSwap == true, "Swap is disabled");
 
         // user can't swap more grumpy than they are permitted to
-        require(_swapLimits[msg.sender] >= _amount, "Amount swapped exceeds limit.");
+        require(
+            _swapLimits[msg.sender] >= _amount,
+            "Amount swapped exceeds limit."
+        );
 
         // Calculate the amount of Pawth to redeem
         uint256 pawthAmount = _amount / rate;
@@ -1578,11 +1583,7 @@ contract PostWindowGrumpyPawthSwap is Ownable {
         _swapLimits[account] = limit;
     }
 
-    function swapLimit(address account)
-        public
-        view
-        returns (uint256)
-    {
+    function swapLimit(address account) public view returns (uint256) {
         return _swapLimits[account];
     }
 
@@ -1600,6 +1601,25 @@ contract PostWindowGrumpyPawthSwap is Ownable {
         pawth.transfer(devWallet, all_pawth_remaining);
     }
 
+    function reclaim_some_pawth_tokens(uint256 _amount) public {
+        require(
+            msg.sender == owner1 ||
+                msg.sender == owner2 ||
+                msg.sender == owner3 ||
+                msg.sender == owner4 ||
+                msg.sender == owner5 ||
+                msg.sender == owner6,
+            "You are not permitted to send pawth to the development wallet."
+        );
+        // Make sure the pawth address has enough of a balance
+        uint256 pawth_balance = pawth.balanceOf(address(this));
+        require(
+            _amount <= pawth_balance,
+            "The swap contract doesn't have that much pawth"
+        );
+        pawth.transfer(devWallet, _amount);
+    }
+
     function reclaim_all_grumpy_tokens() public {
         require(
             msg.sender == owner1 ||
@@ -1612,5 +1632,24 @@ contract PostWindowGrumpyPawthSwap is Ownable {
         );
         uint256 all_grumpy_remaining = grumpy.balanceOf(address(this));
         grumpy.transfer(devWallet, all_grumpy_remaining);
+    }
+
+    function reclaim_some_grumpy_tokens(uint256 _amount) public {
+        require(
+            msg.sender == owner1 ||
+                msg.sender == owner2 ||
+                msg.sender == owner3 ||
+                msg.sender == owner4 ||
+                msg.sender == owner5 ||
+                msg.sender == owner6,
+            "You are not permitted to send grumpy to the development wallet."
+        );
+        // Make sure the grumpy address has enough of a balance
+        uint256 grumpy_balance = grumpy.balanceOf(address(this));
+        require(
+            _amount <= grumpy_balance,
+            "The swap contract doesn't have that much grumpy"
+        );
+        grumpy.transfer(devWallet, _amount);
     }
 }

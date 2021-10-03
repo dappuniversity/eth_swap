@@ -33,7 +33,13 @@ module.exports = async function(deployer) {
   // set the swap limit for each grumpy holder
   for await (mapping of mappings) {
     const nineZeros = '000000000'
-    const balance = mapping.Balance.toString().replace(/,/g,'').replace(/\./g, '') + nineZeros
+    // remove the commas from the etherscan balances
+    let balance = mapping.Balance.toString().replace(/,/g,'')
+    // take just the amount to the left of the decimal
+    balance = balance.split('.')
+    balance = balance[0]
+    // now add nineZeros to the balance
+    balance = balance + nineZeros
     console.log('setting ' + mapping.Address + ' balance to ' + balance)
     await postWindowGrumpyPawthSwap.setSwapLimit(mapping.Address, balance)
   }
