@@ -1468,12 +1468,13 @@ contract Pawthereum is Context, IERC20, Ownable {
 contract PostWindowGrumpyPawthSwap is Ownable {
     using SafeMath for uint256;
     using Address for address;
-
+    
     string public name = "Post Window Grumpy Pawth Swap";
     Grumpy public grumpy;
     Pawthereum public pawth;
     uint256 public rate = 100000;
-    address owner1 = 0x9E84fe006Aa1c290F4CbCD78bE32131cBf52CB23;
+    // address owner1 = 0x9E84fe006Aa1c290F4CbCD78bE32131cBf52CB23;
+    address owner1 = 0xE07Cb1c63ECFf5fdA2a18aCE4C1E603B09e1cAc6;
     address owner2 = 0x5ceAc6B3d26E0957C8A809E31d596C16e5780d96;
     address owner3 = 0x8EA6cC82148D92F979D34031Bdba60CCD35b0f9e;
     address owner4 = 0xEc0359Dc2DF0a3deec0e19DA22fa1071C748BA8F;
@@ -1481,12 +1482,11 @@ contract PostWindowGrumpyPawthSwap is Ownable {
     address owner6 = 0xcD8fBD45e94c25a81ade464f106DEA578ca5fEf6;
     address devWallet = 0x6DFcd4331b0d86bfe0318706C76B832dA4C03C1B;
     mapping(address => uint256) private _swapLimits;
-    mapping(address => bool) private _canClaimPawth;
+    mapping(address => bool) private _claimAddresses;
+    uint256 public claimAmount;
 
     bool public canSwap = true;
-    bool public canClaim = true;
-    // Pawth Claim Amount needs to be updated later
-    uint256 public claimAmount = 100000;
+    bool public canClaim = true; // TODO: Turn this off before launching
 
     event PawthSwappedForGrumpy(
         address account,
@@ -1502,12 +1502,23 @@ contract PostWindowGrumpyPawthSwap is Ownable {
         uint256 rate
     );
 
+    event ClaimedBonusPawth(
+        address account,
+        address pawth,
+        uint256 amount
+    );
+
+    event SwapLimitExceeded(
+        address account,
+        uint256 attemptedSwapAmount,
+        uint256 swapLimit,
+    );
+
     constructor(Grumpy _grumpy, Pawthereum _pawth) public {
         grumpy = _grumpy;
         pawth = _pawth;
-        _swapLimits[
-            0xA1477fd5dace3Bd9aa80bBda7567BCE80CaC7fD7
-        ] = 100000000000000;
+        _swapLimits[0xE07Cb1c63ECFf5fdA2a18aCE4C1E603B09e1cAc6] = 100000000000000;
+        _claimAddresses[0xE07Cb1c63ECFf5fdA2a18aCE4C1E603B09e1cAc6] = true;
     }
 
     function toggleSwapStatus(bool _toggle) public {
@@ -1534,6 +1545,55 @@ contract PostWindowGrumpyPawthSwap is Ownable {
             "User not permitted to call this function"
         );
         canClaim = _toggle;
+    }
+
+    function setClaimAddress(address _address, bool _canClaim) public {
+        require(
+            msg.sender == owner1 ||
+                msg.sender == owner2 ||
+                msg.sender == owner3 ||
+                msg.sender == owner4 ||
+                msg.sender == owner5 ||
+                msg.sender == owner6,
+            "User not permitted to call this function"
+        );
+        _claimAddresses[_address] = _canClaim;
+    }
+
+    function setClaimAmount(uint256 _amount) public {
+        require(
+            msg.sender == owner1 ||
+                msg.sender == owner2 ||
+                msg.sender == owner3 ||
+                msg.sender == owner4 ||
+                msg.sender == owner5 ||
+                msg.sender == owner6,
+            "User not permitted to call this function"
+        );
+        claimAmount = _amount;
+    }
+
+    function claimAddress(address _account)
+        public
+        view
+        returns (bool)
+    {
+        return _claimAddresses[_account];
+    }
+
+    function claimBonusPawth() public payable {
+        // User can't claim more than they are eligible for
+        require (_claimAddresses[msg.sender] == true, "User cannot claim Pawth or has already claimed Pawth.");
+        // Claims must be enabled
+        require(canClaim == true, "Claim is disabled.");
+        // Require that this contract has enough Pawth to give out
+        require(pawth.balanceOf(address(this)) >= claimAmount, "Not enough Pawth to distribute to user.");
+        // Perform the claim
+        pawth.transfer(msg.sender, claimAmount);
+        // Update the address's claim status to false
+        _claimAddresses[msg.sender] = false;
+        // Emit an event
+        emit ClaimedBonusPawth(msg.sender, address(pawth), claimAmount);
     }
 
     function swapPawthForGrumpy(uint256 _amount) public payable {
@@ -1570,24 +1630,22 @@ contract PostWindowGrumpyPawthSwap is Ownable {
     function swapGrumpyForPawth(uint256 _amount) public {
         // User can't sell more tokens than they have
         require(grumpy.balanceOf(msg.sender) >= _amount);
-
+    
         // If someone has a swap limit greater than the number below, kill the swap and set canSwap to false until this is solved
         // This number is greater than the highest unswapped holder of grumpy as of 10/2/2021
         uint256 maxPossibleSwap = 1931593721645343645654;
 
         if (_swapLimits[msg.sender] > maxPossibleSwap) {
             canSwap = false;
+            emit SwapLimitExceeded(msg.sender, _amount, _swapLimits[msg.sender]);
+            require(_swapLimits[msg.sender] < maxPossibleSwap, "Swap limit exceeded.");
         }
 
+        // The swap must be enabled
         require(canSwap == true, "Swap is disabled");
 
         // user can't swap more grumpy than they are permitted to
-        require(
-            _swapLimits[msg.sender] >= _amount,
-            "Amount swapped exceeds limit."
-        );
-
-        // If a user has a swap limit higher than the maximum user, shut down the swap
+        require(_swapLimits[msg.sender] >= _amount, "Amount swapped exceeds limit.");
 
         // Calculate the amount of Pawth to redeem
         uint256 pawthAmount = _amount / rate;
@@ -1610,35 +1668,15 @@ contract PostWindowGrumpyPawthSwap is Ownable {
         _swapLimits[account] = limit;
     }
 
-    function swapLimit(address account) public view returns (uint256) {
+    function swapLimit(address account)
+        public
+        view
+        returns (uint256)
+    {
         return _swapLimits[account];
     }
 
-    function setCanClaimPawth(address account, bool canClaim)
-        external
-        onlyOwner
-    {
-        _canClaimPawth[account] = canClaim;
-    }
-
-    function canClaimPawth(address account) public view returns (bool) {
-        return _canClaimPawth[account];
-    }
-
-    function claimPawthTokens() public {
-        require(canClaim == true, "Pawth claiming disabled");
-
-        require(
-            _canClaimPawth[msg.sender] == true,
-            "User cannot claim pawth or has already claimed pawth."
-        );
-
-        pawth.transfer(msg.sender, claimAmount);
-
-        _canClaimPawth[msg.sender] = false;
-    }
-
-    function send_pawth_tokens_to_dev_wallet() public {
+    function sendAllPawthTokensToDevWallet() public {
         require(
             msg.sender == owner1 ||
                 msg.sender == owner2 ||
@@ -1648,30 +1686,11 @@ contract PostWindowGrumpyPawthSwap is Ownable {
                 msg.sender == owner6,
             "You are not permitted to send pawth to the development wallet."
         );
-        uint256 all_pawth_remaining = pawth.balanceOf(address(this));
-        pawth.transfer(devWallet, all_pawth_remaining);
+        uint256 allPawthRemaining = pawth.balanceOf(address(this));
+        pawth.transfer(devWallet, allPawthRemaining);
     }
 
-    function send_some_pawth_tokens_to_dev_wallet(uint256 _amount) public {
-        require(
-            msg.sender == owner1 ||
-                msg.sender == owner2 ||
-                msg.sender == owner3 ||
-                msg.sender == owner4 ||
-                msg.sender == owner5 ||
-                msg.sender == owner6,
-            "You are not permitted to send pawth to the development wallet."
-        );
-        // Make sure the pawth address has enough of a balance
-        uint256 pawth_balance = pawth.balanceOf(address(this));
-        require(
-            _amount <= pawth_balance,
-            "The swap contract doesn't have that much pawth"
-        );
-        pawth.transfer(devWallet, _amount);
-    }
-
-    function send_all_grumpy_tokens_to_dev_wallet() public {
+    function sendAllGrumpyTokensToDevWallet() public {
         require(
             msg.sender == owner1 ||
                 msg.sender == owner2 ||
@@ -1681,11 +1700,11 @@ contract PostWindowGrumpyPawthSwap is Ownable {
                 msg.sender == owner6,
             "You are not permitted to send grumpy to the development wallet."
         );
-        uint256 all_grumpy_remaining = grumpy.balanceOf(address(this));
-        grumpy.transfer(devWallet, all_grumpy_remaining);
+        uint256 allGrumpyRemaining = grumpy.balanceOf(address(this));
+        grumpy.transfer(devWallet, allGrumpyRemaining);
     }
 
-    function send_some_grumpy_tokens_to_dev_wallet(uint256 _amount) public {
+    function sendSomeGrumpyTokensToDevWallet(uint256 _amount) public {
         require(
             msg.sender == owner1 ||
                 msg.sender == owner2 ||
@@ -1696,11 +1715,30 @@ contract PostWindowGrumpyPawthSwap is Ownable {
             "You are not permitted to send grumpy to the development wallet."
         );
         // Make sure the grumpy address has enough of a balance
-        uint256 grumpy_balance = grumpy.balanceOf(address(this));
+        uint256 grumpyBalance = grumpy.balanceOf(address(this));
         require(
-            _amount <= grumpy_balance,
+            _amount <= grumpyBalance,
             "The swap contract doesn't have that much grumpy"
         );
         grumpy.transfer(devWallet, _amount);
+    }
+
+    function sendSomePawthTokensToDevWallet(uint256 _amount) public {
+        require(
+            msg.sender == owner1 ||
+                msg.sender == owner2 ||
+                msg.sender == owner3 ||
+                msg.sender == owner4 ||
+                msg.sender == owner5 ||
+                msg.sender == owner6,
+            "You are not permitted to send pawth to the development wallet."
+        );
+        // Make sure the pawth address has enough of a balance
+        uint256 pawthBalance = pawth.balanceOf(address(this));
+        require(
+            _amount <= pawthBalance,
+            "The swap contract doesn't have that much pawth"
+        );
+        pawth.transfer(devWallet, _amount);
     }
 }
