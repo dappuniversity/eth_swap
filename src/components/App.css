@@ -1,1 +1,122 @@
-/* Styles go here */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
+
+.pawth_color {
+  background-color: #ff65b3;
+  color: black;
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+  /* background-image: url("../bg.svg"); */
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 101, 179, 0)), url("../bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "Comfortaa", cursive;
+  color: rgb(58, 57, 94);
+}
+
+.circle {
+  border-radius: 50px;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.fullscreen {
+  min-height: 100vh;
+}
+
+.pawth_color_2 {
+  background-color: #ff349b;
+  color: white;
+  font-weight: bold;
+}
+
+.pawth_color_2:hover {
+  background-color: #ff65b3;
+  color: black;
+  font-weight: bold;
+}
+
+.pawth_color_3 {
+  background-color: #ffbdde;
+  color: black;
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.black_font {
+  color: black;
+  font-size: 14px;
+}
+
+.no_margin {
+  margin: 0 !important;
+  padding: 30px;
+}
+
+.rounded {
+  border-radius: 24px !important;
+}
+
+/* Loading Animation */
+@-webkit-keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.loading {
+  -webkit-animation: pulse 2s infinite ease-in-out;
+  -o-animation: pulse 2s infinite ease-in-out;
+  -ms-animation: pulse 2s infinite ease-in-out;
+  -moz-animation: pulse 2s infinite ease-in-out;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.smallFont {
+  font-size: 15px;
+  color: rgb(58, 57, 94);
+  text-align: center;
+}
+
+.descriptiveFont {
+  color: rgb(58, 57, 94);
+  font-weight: 1000;
+}
+
+.background {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/* End of Loading Animation */
