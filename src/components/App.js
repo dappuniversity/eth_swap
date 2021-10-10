@@ -283,7 +283,10 @@ class App extends Component {
                     <h5 class="card-title pt-4 text-center">The swap period has ended!</h5>
                     <div className="card-body text-center card-text">
                       Thank you to everyone who swapped <br />
-                      Pawthereum is being traded on Uniswap!
+                      Pawthereum is being traded on &nbsp;
+                      <a href="https://app.uniswap.org/#/swap?use=v2&outputCurrency=0xAEcc217a749c2405b5ebC9857a16d58Bdc1c367F">
+                        Uniswap!
+                      </a>
                     </div>
                   </div>
                 </div>
