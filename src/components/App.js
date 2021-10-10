@@ -4,7 +4,7 @@ import Jazzicon from '@metamask/jazzicon'
 import pawthLogo from '../pawth-horizontal.png'
 import pawthLogoSmall from '../Pawth_logo.png'
 import Grumpy from '../abis/Grumpy.json'
-import Pawth from '../abis/Pawthereum.json' // TODO: CHANGE THIS WHEN GOING LIVE
+import Pawth from '../abis/Pawthereum.json'
 import GrumpyPawthSwap from '../abis/GrumpyPawthSwap.json'
 import Main from './Main'
 import './App.css'
@@ -65,7 +65,7 @@ class App extends Component {
       const grumpyPawthSwap = new web3.eth.Contract(GrumpyPawthSwap.abi, grumpyPawthSwapData.address)
       this.setState({ grumpyPawthSwap })
       const pawth = this.state.pawth
-      let grumpyPawthSwapBalance = await pawth.methods.balanceOf(grumpyPawthSwap._address).call()
+      let grumpyPawthSwapBalance = await pawth.methods.balanceOf(grumpyPawthSwap.address).call()
       this.setState({ grumpyPawthSwapBalance: grumpyPawthSwapBalance ? grumpyPawthSwapBalance.toString() : '0' })
     } else {
       window.alert('GrumpyPawthSwap contract not deployed to detected network.')
@@ -74,19 +74,24 @@ class App extends Component {
     this.setState({ account })
     document.getElementById('avatar').appendChild(Jazzicon(20, parseInt(this.state.account.slice(2, 10), 16)))
 
-    const allowanceCall = await this.state.grumpy.methods.allowance(this.state.account, this.state.grumpyPawthSwap._address).call()
+    const allowanceCall = await this.state.grumpy.methods.allowance(this.state.account, this.state.grumpyPawthSwap.address).call()
     const allowance = allowanceCall.toString()
     if (allowance !== '0') {
       this.setState({ showApprovedWarning: true })
     }
     this.setState({ allowance })
 
+    const swapLimitCall = await this.state.grumpyPawthSwap.methods.swapLimit(this.state.account).call()
+    const swapLimit = swapLimitCall.toString()
+    this.setState({ swapLimit })
+    console.log('swap limit', swapLimit)
+
     this.setState({ loading: false })
   }
 
   swapPawthForGrumpy = (pawthAmount) => {
     this.setState({ loading: true })
-    this.state.pawth.methods.approve(this.state.grumpyPawthSwap._address, pawthAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.pawth.methods.approve(this.state.grumpyPawthSwap.address, pawthAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.state.grumpyPawthSwap.methods.swapPawthForGrumpy(pawthAmount).send({ from: this.state.account })
       .on('transactionHash', (hash) => {
         this.setState({ loading: false })
@@ -102,7 +107,7 @@ class App extends Component {
 
   approveGrumpyTransaction = (grumpyAmount) => {
     this.setState({ loading: true })
-    this.state.grumpy.methods.approve(this.state.grumpyPawthSwap._address, grumpyAmount).send({ from: this.state.account })
+    this.state.grumpy.methods.approve(this.state.grumpyPawthSwap.address, grumpyAmount).send({ from: this.state.account })
     .on('confirmation', (confirmationNumber, receipt) => {
       this.setState({ showAdditionalTxBanner: true })
       this.setState({grumpyApproved: true})
@@ -147,6 +152,7 @@ class App extends Component {
     this.state = {
       account: null,
       allowance: '0',
+      swapLimit: '0',
       grumpyApproved:false,
       grumpy: {},
       grumpyAddress: '0x93b2fff814fcaeffb01406e80b4ecd89ca6a021b',
@@ -169,6 +175,7 @@ class App extends Component {
     let content
     content = <Main
       allowance={this.state.allowance}
+      swapLimit={this.state.swapLimit}
       grumpyAddress={this.state.grumpyAddress}
       pawthAddress={this.state.pawthAddress}
       swapAddress={this.state.swapAddress}
@@ -198,7 +205,7 @@ class App extends Component {
                 <img className="d-block d-sm-none" src={pawthLogoSmall} height="32x"></img>
               </a>
             </div>
-            <div className="col" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+            {/* <div className="col" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
               <button type="button" className="btn btn-primary rounded mr-2" data-toggle="modal" data-target="#exampleModal">
                 Instructions
               </button>
@@ -222,7 +229,7 @@ class App extends Component {
                   onClick={this.loadBlockchainData.bind(this)}
                 >Connect</button>
               }
-            </div>
+            </div> */}
           </div>
 
         </nav>
@@ -271,7 +278,14 @@ class App extends Component {
                   <div></div>
                 } */}
                 <div className={`${this.state.loading ? "loading" : ""}`}>
-                  {content}
+                  {/* {content} */}
+                  <div className="card mb-4 rounded shadow">
+                    <h5 class="card-title pt-4 text-center">The swap period has ended!</h5>
+                    <div className="card-body text-center card-text">
+                      Thank you to everyone who swapped <br />
+                      Pawthereum is being traded on Uniswap!
+                    </div>
+                  </div>
                 </div>
               </div>
 
