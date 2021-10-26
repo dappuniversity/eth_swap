@@ -1,9 +1,12 @@
 {
-  "name": "eth-swap",
+  "name": "grumpy-pawth-swap",
   "version": "0.1.0",
-  "description": "An Instant ERC-20 Cryptocurrency Exchange",
-  "author": "gregory@dappuniversity.com",
+  "homepage": "https://swap.pawthereum.com",
+  "description": "Swap your grumpy for pawth!",
+  "author": "Pawthereum",
   "dependencies": {
+    "@metamask/jazzicon": "^2.0.0",
+    "@primer/octicons-react": "^15.1.0",
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-es2015": "6.24.1",
@@ -14,19 +17,28 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chai-bignumber": "3.0.0",
+    "dotenv": "^6.0.0",
+    "gh-pages": "^3.2.3",
     "identicon.js": "^2.3.3",
+    "jquery": "^3.6.0",
+    "openzeppelin-solidity": "^4.3.1",
     "react": "16.8.4",
     "react-bootstrap": "1.0.0-beta.5",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "16.8.4",
     "react-scripts": "2.1.3",
     "truffle": "5.0.5",
+    "truffle-hdwallet-provider-privkey": "^0.3.0",
+    "truffle-plugin-verify": "^0.5.15",
     "web3": "1.0.0-beta.55"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
